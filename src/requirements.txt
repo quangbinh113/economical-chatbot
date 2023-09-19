@@ -2,4 +2,3 @@ re
 requests
 bs4
 googlesearch-python
-```
