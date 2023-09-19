@@ -41,7 +41,6 @@ class WebPageTextExtractor(object):
             if key in self.url:
                 self.div_class = value
 
-
     def get_text_from_tag(self, tag: BeautifulSoup) -> str:
         """
         A recursive function to extract text from header and content tags within a <div> tag.
