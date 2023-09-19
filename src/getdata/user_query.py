@@ -2,9 +2,11 @@ import os
 from googlesearch import search
 
 DEFAULT_ROOTS = {
-    'vnexpress': 'html', 
-    'cafef': 'htm',
-    'vietstock': 'chn', 
+    'vnexpress': '.html', 
+    'cafef': '.htm',
+    'vietstock': '.chn', 
+    'tinhnhanhchungkhoan': '.html',
+    'thanhnien': '.htm',
     'wikipedia': ''
 }
 
@@ -29,7 +31,7 @@ if __name__ == "__main__":
     # query = input('Nhập câu truy vấn: ')
     query = 'Thị trường chứng khoán Việt Nam'
     num_urls = 30
-    query_folder = 'E:\Orient\EconomicChatbot\data'
+    query_folder = r'C:\Users\binh.truong\Code\economical-chatbot\data'
 
     if os.path.exists(query_folder) == False:
         os.makedirs(query_folder)
@@ -44,5 +46,7 @@ if __name__ == "__main__":
                 i += 1
                 file_name = root + str(i) + '.txt'
                 break
-        run = 'python E:\Orient\EconomicChatbot\src\getdata\get_text.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
+        run = r'python C:\Users\binh.truong\Code\economical-chatbot\src\getdata\get_text.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
         os.system(run)
+
+    # python C:\Users\binh.truong\Code\economical-chatbot\src\getdata\get_text.py 'https://en.wikipedia.org/wiki/Cancer' --output-dir='C:\Users\binh.truong\Code\economical-chatbot\data' --file-name='wiki.txt'

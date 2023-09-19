@@ -3,6 +3,16 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import argparse
+from functools import reduce
+
+special_characters = ['(', ')', ']', '[']
+
+string = "asdfasdf[]sdafasdfasdfasdf(asdfasdfasdf]aasdfa[sdf[asdfsadf]])"
+reduce(
+    lambda s, c: s.replace(c, ''),
+    special_characters,
+    string
+)
 
 class WebPageTextExtractor(object):
     """
@@ -13,22 +23,26 @@ class WebPageTextExtractor(object):
         parenthesis_regex: (object) -> A regular expression object to remove parenthesis content.
         citations_regex: (object) -> A regular expression object to remove citations, e.g., [1].
     """
-    def __init__(self, url):
+    def __init__(self, url: str) -> None:
         self.url = url
         self.div_class = None
         self.parenthesis_regex = re.compile(r'\(.+?\)')  # To remove parenthesis content
         self.citations_regex = re.compile(r'\[.+?\]')    # To remove citations, e.g., [1]
+        news_class_mapping = {
+            'vnexpress': 'sidebar-1',
+            'cafef': 'left_cate totalcontentdetail',
+            'vietstock': 'content',
+            'wikipedia': 'mw-content-container',
+            'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',
+            'thanhnien': 'detail__cmain',
+            'mof.gov': 'new-content cd-content'
+        }
+        for key, value in news_class_mapping.items():
+            if key in self.url:
+                self.div_class = value
 
-        if 'vnexpress' in self.url:
-            self.div_class = 'sidebar-1'
-        elif 'cafef' in self.url:
-            self.div_class = 'left_cate totalcontentdetail'
-        elif 'vietstock' in self.url:
-            self.div_class = 'content'
-        elif 'wikipedia' in self.url:
-            self.div_class = 'mw-content-container'
 
-    def get_text_from_tag(self, tag):
+    def get_text_from_tag(self, tag: BeautifulSoup) -> str:
         """
         A recursive function to extract text from header and content tags within a <div> tag.
         Args:
@@ -53,7 +67,7 @@ class WebPageTextExtractor(object):
 
         return extracted_text
 
-    def get_text_from_div(self):
+    def get_text_from_div(self) -> str:
         """
         A function to get text from header and content tags within a <div> tag.
         Returns:
@@ -77,7 +91,7 @@ class WebPageTextExtractor(object):
             print(f"An error occurred: {str(e)}")
             return None
 
-    def save_text_to_file(self, output_dir, file_name):
+    def save_text_to_file(self, output_dir:str, file_name: str) -> None:
         """
         A function to save the extracted text to a file.
         Args:
