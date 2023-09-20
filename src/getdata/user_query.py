@@ -7,8 +7,21 @@ DEFAULT_ROOTS = {
     'vietstock': '.chn', 
     'tinhnhanhchungkhoan': '.html',
     'thanhnien': '.htm',
-    'wikipedia': ''
-}
+    'wikipedia': '',
+    'tapchicongthuong.vn': '.htm',
+    'www.gso.gov.vn':  '',
+    'tapchitaichinh.vn': '.html',
+    'quochoi.vn': 'ItemID=',
+    'vtv.vn': '.htm',
+    'www.tapchicongsan.org.vn': '.aspx',
+    'baodautu.vn': '.html',
+    'tuoitre.vn': '.htm',
+    'laodong.vn': '.ldo',
+    'dangcongsan.vn': '.html',
+    'kinhtevadubao.vn': '.html',
+    'tapchinganhang.gov.vn': '.htm',
+    'dantri.com.vn': '.htm',
+    }
 
 def get_urls(query, num_urls, roots=DEFAULT_ROOTS):
     """

@@ -35,7 +35,23 @@ class WebPageTextExtractor(object):
             'wikipedia': 'mw-content-container',
             'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',
             'thanhnien': 'detail__cmain',
-            'mof.gov': 'new-content cd-content'
+            'mof.gov': 'new-content cd-content',
+            'vneconomy.vn': 'detail__header',
+            'nhandan.vn': 'main-content article',
+            'baochinhphu.vn': 'detail-mcontent',
+            'tapchicongthuong.vn': 'post-content',
+            'www.gso.gov.vn': 'post post-45957 type-post status-publish format-standard hentry category-cong-nghiep category-dau-tu-va-xay-dung category-doanh-nghiep category-ngan-hang-bao-hiem-va-thu-chi-ngan-sach category-nong-lam-nghiep-va-thuy-san category-gia category-thuong-mai-dich-vu category-y-te-muc-song-dan-cu-van-hoa-the-thao-trat-tu-an-toan-xa-hoi-va-moi-truong tag-bao-cao-tinh-hinh-kinh-te-xa-hoi-hang-thang gso_document_type-bai-top',
+            'tapchitaichinh.vn': 'detail-wrap',
+            'quochoi.vn': 'container',
+            'vtv.vn': 'noidung',
+            'www.tapchicongsan.org.vn': 'clearfix ContentDetail',
+            'baodautu.vn': 'col630 ml-auto mb40',
+            'tuoitre.vn': 'detail__cmain',
+            'laodong.vn': 'pl',
+            'dangcongsan.vn': 'detail-post hnoneview',
+            'kinhtevadubao.vn': 'post',
+            'tapchinganhang.gov.vn': 'col_left',
+            'dantri.com.vn': 'singular-wrap',
         }
         for key, value in news_class_mapping.items():
             if key in self.url:
