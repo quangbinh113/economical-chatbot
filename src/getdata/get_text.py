@@ -3,16 +3,17 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import argparse
+import trafilatura
 from functools import reduce
 
-special_characters = ['(', ')', ']', '[']
+# special_characters = ['(', ')', ']', '[']
 
-string = "asdfasdf[]sdafasdfasdfasdf(asdfasdfasdf]aasdfa[sdf[asdfsadf]])"
-reduce(
-    lambda s, c: s.replace(c, ''),
-    special_characters,
-    string
-)
+# string = "asdfasdf[]sdafasdfasdfasdf(asdfasdfasdf]aasdfa[sdf[asdfsadf]])"
+# reduce(
+#     lambda s, c: s.replace(c, ''),
+#     special_characters,
+#     string
+# )
 
 class WebPageTextExtractor(object):
     """
@@ -40,7 +41,6 @@ class WebPageTextExtractor(object):
             'nhandan.vn': 'main-content article',
             'baochinhphu.vn': 'detail-mcontent',
             'tapchicongthuong.vn': 'post-content',
-            'www.gso.gov.vn': 'post post-45957 type-post status-publish format-standard hentry category-cong-nghiep category-dau-tu-va-xay-dung category-doanh-nghiep category-ngan-hang-bao-hiem-va-thu-chi-ngan-sach category-nong-lam-nghiep-va-thuy-san category-gia category-thuong-mai-dich-vu category-y-te-muc-song-dan-cu-van-hoa-the-thao-trat-tu-an-toan-xa-hoi-va-moi-truong tag-bao-cao-tinh-hinh-kinh-te-xa-hoi-hang-thang gso_document_type-bai-top',
             'tapchitaichinh.vn': 'detail-wrap',
             'quochoi.vn': 'container',
             'vtv.vn': 'noidung',
@@ -95,13 +95,32 @@ class WebPageTextExtractor(object):
                 div_tag = soup.find('div', class_=self.div_class)
                 if div_tag:
                     extracted_text = self.get_text_from_tag(div_tag)
-                    return extracted_text
+                    if extracted_text != "":
+                        return extracted_text
+                    else:
+                        trafilatura_text = trafilatura.extract(response.text)
+                        trafilatura_text = self.parenthesis_regex.sub('', trafilatura_text)
+                        trafilatura_text = self.citations_regex.sub('', trafilatura_text)
+                        return trafilatura_text
                 else:
-                    print(f"Could not find a <div> tag with class '{self.div_class}'.")
-                    return None
+                    trafilatura_text = trafilatura.extract(response.text)
+                    trafilatura_text = self.parenthesis_regex.sub('', trafilatura_text)
+                    trafilatura_text = self.citations_regex.sub('', trafilatura_text)
+                    return trafilatura_text
             else:
-                print(f"Failed to retrieve the web page. Status code: {response.status_code}")
-                return None
+                response = trafilatura.fetch_url(self.url)
+                trafilatura_text = trafilatura.extract(
+                                        response, 
+                                        include_comments=False, 
+                                        include_tables=False, 
+                                        no_fallback=True, 
+                                        include_links=False, 
+                                        include_images=False, 
+                                        deduplicate=False
+                                    )
+                trafilatura_text = self.parenthesis_regex.sub('', trafilatura_text)
+                trafilatura_text = self.citations_regex.sub('', trafilatura_text)
+                return trafilatura_text
         except Exception as e:
             print(f"An error occurred: {str(e)}")
             return None
