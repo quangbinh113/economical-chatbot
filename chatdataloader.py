@@ -13,6 +13,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from streamlit_extras.add_vertical_space import add_vertical_space
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
+from langchain.chat_models import ChatOpenAI
 
 class ChatDataLoader:
     def __init__(self):
@@ -33,7 +34,12 @@ class ChatDataLoader:
 
     def CsvLoader(self, csv_file_path):
         # Sử dụng pandas để đọc dữ liệu từ tệp CSV
-        pass
+        csv_loader = CSVLoader(file_path=csv_file_path, encoding="utf-8")
+        data = csv_loader.load()
+        embeddings = OpenAIEmbeddings()
+        vectors = FAISS.from_documents(data, embeddings)
+        
+
 
     def PdfLoader(self, pdf_file_path):
         pdf_reader = PyPDFLoader(pdf_file_path) 

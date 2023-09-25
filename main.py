@@ -39,7 +39,7 @@ if __name__ == "__main__":
     import uvicorn
     # uvicorn.run("ticket_project.main:app")
 
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000)  # Set host and port here
+    uvicorn.run("main:app", host="0.0.0.0", port=8000,reload=True)  # Set host and port here
 
 
 # from fastapi import FastAPI

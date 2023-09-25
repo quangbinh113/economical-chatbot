@@ -42,6 +42,6 @@ async def get_response(input_: AIQueryModel):
     # code logic de tra ve cau tra loi
     # crawl data tu html -> file texts -> tong hop cau tra loi -> dua ra cau dung nhat = AI model sau do gan vao response message
     # dataCanXuLy = 'bla bla'  # can xu dung logic cua AI
-    out.cau_tra_loi = fr'cau tra loi cua {questionUser} la {str(x)}'
+    out.cau_tra_loi = fr'{str(x)}'
 
     return out
