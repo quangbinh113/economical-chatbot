@@ -15,6 +15,10 @@ from dotenv import load_dotenv,find_dotenv
 import os
 import time
 
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity  
+
 _ = load_dotenv(find_dotenv()) # read local .env file
 openai.api_key  = os.environ['OPENAI_API_KEY']
 
@@ -30,33 +34,47 @@ class HandleQA():
                                         memory = self.memory,
                                         verbose=False
                                     )
+        self.splitter = RecursiveCharacterTextSplitter(
+            chunk_size=self.config.chunk_size,
+            chunk_overlap=self.config.chunk_overlap
+        )   
 
-    def split_context(self, files:list[str]) -> list[str]:
+
+    def split_context(self,query:str, files:list[str]) -> list[str]:
         """
         Split documents into chunks
         Args: 
+            query(str:None): question need to be answered
             files(list[str]:None): list of documentations' local paths
         Return:
             list of chunks (list[str])
         """
         start = time.time()
-        chunk_size = self.config.chunk_size
-        chunk_overlap = self.config.chunk_overlap
-
-        r_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap
-        )   
         
         chunks = []
 
         for file in files:
             with open(file,'r',encoding='utf8') as f:
                 content = f.read()
-                x = r_splitter.split_text(content)
-                chunks += x 
+                x = self.splitter.split_text(content)
+                chunks += x
+ 
+        if len(chunks) <=10:
+            return chunks
+                
+        tf_idf = TfidfVectorizer()
+        tf_idf.fit(chunks+[query])
+        embedded_query = tf_idf.transform([query])
+        
+        similarity = []
+        chunks = np.array(chunks)
+        for chunk in chunks:
+            similarity.append(cosine_similarity(tf_idf.transform([chunk]),embedded_query))
+            
+        chunks = chunks[np.array(similarity).argsort()[-10:]]
         print(f'Splitting in: {time.time()-start}')
-        return chunks
+        
+        return [item.squeeze()[()] for item in chunks]
     
 
     # def split_context(self, dir:str = r'C:\Users\anh.do\Desktop\chatbot\data') -> list[str]:
@@ -139,7 +157,7 @@ class HandleQA():
         return:
             answer(str)
         '''
-        chunks = self.split_context(files)
+        chunks = self.split_context(query,files)
         self.store_db(chunks)
 
         query,contents = self.get_query_and_chunk(query)
