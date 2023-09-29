@@ -9,7 +9,7 @@ import os
 from src.getdata.user_query import get_data
 
 ai_router = APIRouter()
-
+chat = HandleQA(config)
 
 
 class AIResponseModel(BaseModel):
@@ -28,14 +28,12 @@ async def get_response(input_: AIQueryModel):
     # if input_.question == 'gia co phieu ngay hom nay':
     #     out.cau_tra_loi = 'may deo mua duoc dau'
     #     return out
-    dataCanXuLy = ""
 
-    get_data(questionUser,query_folder = path)
-    files = os.listdir(path)
-    files = [os.path.join(path,file) for file in files]
-    chat = HandleQA(config)
-
-    x = chat.ask_gpt(questionUser,files)
+    documents = get_data(questionUser)
+    # files = os.listdir(path)
+    # files = [os.path.join(path,file) for file in files]
+    
+    x = chat.ask_gpt(questionUser,documents)
 
     # code logic de tra ve cau tra loi
     # crawl data tu html -> file texts -> tong hop cau tra loi -> dua ra cau dung nhat = AI model sau do gan vao response message
