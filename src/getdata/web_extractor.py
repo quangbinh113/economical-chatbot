@@ -123,6 +123,7 @@ class WebPageTextExtractor(object):
         Args:
             output_dir: (str) -> The output directory to save the text file.
             file_name: (str) -> The name of the output text file.
+            
         """
         try:
             if not os.path.exists(output_dir):
