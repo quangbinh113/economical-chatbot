@@ -6,14 +6,6 @@ import argparse
 import trafilatura
 from functools import reduce
 
-# special_characters = ['(', ')', ']', '[']
-
-# string = "asdfasdf[]sdafasdfasdfasdf(asdfasdfasdf]aasdfa[sdf[asdfsadf]])"
-# reduce(
-#     lambda s, c: s.replace(c, ''),
-#     special_characters,
-#     string
-# )
 
 class WebPageTextExtractor(object):
     """
