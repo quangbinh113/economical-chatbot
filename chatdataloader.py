@@ -14,8 +14,11 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 from langchain.chat_models import ChatOpenAI
+from langchain.chains import ConversationalRetrievalChain
+from langchain.chat_models import ChatOpenAI
 
-class ChatDataLoader:
+
+class FileLoader:
     def __init__(self):
         self.csv_data = None
         self.pdf_data = None
@@ -25,47 +28,90 @@ class ChatDataLoader:
         self.text = None
 
     def _get_file_extension(self, filename):
-        # Hàm này trả về đuôi tệp của tệp với tên filename
+        '''
+            func return .name file
+        '''
         return os.path.splitext(filename)[1]
 
     def embeddings(self, text):
-
+        '''
+            embeddings text
+        '''
         pass
 
-    def CsvLoader(self, csv_file_path):
-        # Sử dụng pandas để đọc dữ liệu từ tệp CSV
-        csv_loader = CSVLoader(file_path=csv_file_path, encoding="utf-8")
+    def csv_loader(self, csv_file):
+        # #check file and load CSV
+        # if uploaded_file :
+        # #use tempfile because CSVLoader only accepts a file_path
+        # with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        # tmp_file.write(uploaded_file.getvalue())
+        # tmp_file_path = tmp_file.name
+        '''
+            load và processing CSV by Langchain -> return chain
+        '''
+        csv_loader = CSVLoader(file_path=csv_file, encoding="utf-8")
         data = csv_loader.load()
         embeddings = OpenAIEmbeddings()
         vectors = FAISS.from_documents(data, embeddings)
-        
+        chain = ConversationalRetrievalChain.from_llm(llm = ChatOpenAI(temperature=0.0,model_name='gpt-3.5-turbo', openai_api_key=OPENAI_API_KEY),
+                                                                      retriever=vectors.as_retriever())
+        return chain
 
-
-    def PdfLoader(self, pdf_file_path):
-        pdf_reader = PyPDFLoader(pdf_file_path) 
+    def pdf_loader(self, pdf_file):
+        '''
+            get text of file PDF -> return text
+        '''
+        pdf_reader = PyPDFLoader(pdf_file) 
 
         text = ""
         for page_num in range(len(pdf_reader.pages)):
             page = pdf_reader.pages[page_num]
-            text += page.get_text()
+            self.pdf_data += page.get_text()
+
         
-        # Kết quả là biến text chứa toàn bộ nội dung văn bản từ tệp PDF
+        return self.pdf_data
+
+
+    def markdown_loader(self, markdown_file):
+        '''
+            get text of file markdown -> return text
+        '''
+        # Sử dụng markdown để đọc dữ liệu từ tệp Markdown
+        with open(markdown_file, 'r', encoding='utf-8') as file:
+            markdown_text  = file.read()
+
+        markdown_loader = UnstructuredMarkdownLoader()
+        self.markdown_data = markdown_loader.load(markdown_text)
+
+        return self.markdown_data
+
+
+    def json_loader(self, json_file_path):
+        '''
+            get list text file Json -> return text
+        '''
+        loader = JSONLoader(
+        file_path=json_file_path,
+        jq_schema='.messages[].content',
+        text_content=False)
+
+        documents = loader.load()
+        text = []
+        for document in documents:
+            text.append(document.page_content)
+
         return text
 
+    def directory_loader(self, directory_file):
 
-    def MarkDownLoader(self, markdown_file_path):
-        # Sử dụng markdown để đọc dữ liệu từ tệp Markdown
-        with open(markdown_file_path, 'r', encoding='utf-8') as file:
-            self.markdown_data = markdown.markdown(file.read())
-
-    def JsonLoader(self, json_file_path):
-        pass
-
-    def DirectoryLoader(self, directory_path):
+        '''
+            check directory file -> .zip or rar
+            unzip and check types of file in direc
+        '''
         # Lấy danh sách tệp trong thư mục và đọc nội dung từ mỗi tệp
         self.directory_data = []
-        for filename in os.listdir(directory_path):
-            file_path = os.path.join(directory_path, filename)
+        for filename in os.listdir(directory_file):
+            file_path = os.path.join(directory_file, filename)
             if os.path.isfile(file_path):
                 extension = self._get_file_extension(filename)
                 with open(file_path, 'r', encoding='utf-8') as file:
@@ -84,5 +130,14 @@ class ChatDataLoader:
                     else:
                         # Đối với các tệp có đuôi khác, đọc nội dung từ tệp
                         self.directory_data.append((filename, file.read()))
+        # return self.directory_data
 
-
+        for file in self.directory_data:
+            if self._get_file_extension(file) == '.csv':
+                return self.csv_loader(file)
+            if self._get_file_extension(file) == '.pdf':
+                return self.pdf_loader(file)
+            if self._get_file_extension(file) == '.md':
+                return self.markdown_loader(file)
+            if self._get_file_extension(file) == '.json':
+                return self.json_loader(file)
