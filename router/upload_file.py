@@ -15,24 +15,24 @@ upload_dir = os.path.join(rootDir, "file_upload")  # Replace with the actual pat
 ALLOWED_EXTENSIONS = ['.pdf', '.csv', '.json', '.md', '.zip', '.rar']
 
 
-@upload_file_router.get('/get_model')
-async def get_model(model: str = Query(..., description="Stock ticker")):
-    # Construct the full path to the model file
-    global model_dir
-    model_filename = os.path.join(model_dir,
-                                  model)  # Replace '.h5' with the appropriate extension (.h5 or .pkl)
+# @upload_file_router.get('/get_model')
+# async def get_model(model: str = Query(..., description="Stock ticker")):
+#     # Construct the full path to the model file
+#     global model_dir
+#     model_filename = os.path.join(model_dir,
+#                                   model)  # Replace '.h5' with the appropriate extension (.h5 or .pkl)
 
-    if os.path.exists(model_filename):
-        # Read the model file as binary data
-        with open(model_filename, 'rb') as model_file:
-            model_content = model_file.read()
+#     if os.path.exists(model_filename):
+#         # Read the model file as binary data
+#         with open(model_filename, 'rb') as model_file:
+#             model_content = model_file.read()
 
-        # Use StreamingResponse to send the model file as a response
-        return StreamingResponse(io.BytesIO(model_content), media_type='application/octet-stream',
-                                 headers={
-                                     "Content-Disposition": f"attachment; filename={model}"})  # Adjust the filename extension
-    else:
-        return "Model file not found", 404
+#         # Use StreamingResponse to send the model file as a response
+#         return StreamingResponse(io.BytesIO(model_content), media_type='application/octet-stream',
+#                                  headers={
+#                                      "Content-Disposition": f"attachment; filename={model}"})  # Adjust the filename extension
+#     else:
+#         return "Model file not found", 404
 
 
 @upload_file_router.post('/upload')
@@ -55,6 +55,23 @@ async def upload_file(file: UploadFile):
 
     return {"message": "File uploaded successfully"}
 
+
+@upload_file_router.post('/file-process')
+async def file_process(file: UploadFile):
+    global upload_dir
+
+    filename = file.filename
+    print(filename)
+    # Xác định loại tệp dựa trên đuôi tệp (file extension)
+    # file_extension = FileLoader._get_file_extension(filename)
+
+    # if file_extension not in ALLOWED_EXTENSIONS:
+    #     raise HTTPException(status_code=400, detail=f"Unsupported file type {file_extension}")
+
+    # saved_filename = os.path.join(upload_dir, f'{file_extension}')~
+    FileLoader().csv_byte_loader(file.file.read())
+
+    return {"message": "File uploaded successfully"}
 
 # @upload_file.get('/get_csv')
 # async def get_csv(ticker: str = Query(..., description="Stock ticker")):

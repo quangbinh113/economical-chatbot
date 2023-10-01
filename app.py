@@ -149,34 +149,117 @@ def generate_gpt_response(prompt_input):
 #     st.session_state.messages.append({"role": "assistant", "content": response})
 #     st.markdown(f'🤖 Bot: {response}')
 
-if prompt := st.chat_input("What is up?"):
-    # print("????????")
-    # print(prompt)
-    start_time = datetime.now()
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+# if prompt := st.chat_input("What is up?"):
+#     # print("????????")
+#     # print(prompt)
+#     start_time = datetime.now()
+#     st.session_state.messages.append({"role": "user", "content": prompt})
+#     with st.chat_message("user"):
+#         st.markdown(prompt)
 
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        # for response in openai.ChatCompletion.create(
-        #         model=gpt_model,
-        #         messages=[
-        #             {"role": m["role"], "content": m["content"]}
-        #             for m in st.session_state.messages
-        #         ],
-        #         stream=True,
-        # ):
-        #     full_response += response.choices[0].delta.get("content", "")
-        #     message_placeholder.markdown(full_response + "▌")
+#     with st.chat_message("assistant"):
+#         message_placeholder = st.empty()
+#         full_response = ""
+#         # for response in openai.ChatCompletion.create(
+#         #         model=gpt_model,
+#         #         messages=[
+#         #             {"role": m["role"], "content": m["content"]}
+#         #             for m in st.session_state.messages
+#         #         ],
+#         #         stream=True,
+#         # ):
+#         #     full_response += response.choices[0].delta.get("content", "")
+#         #     message_placeholder.markdown(full_response + "▌")
 
-        # message_placeholder.markdown(full_response + "▌")
-        full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response", {"question": prompt}).cau_tra_loi
-        # Tính thời gian trả lời và in ra màn hình
-        end_time = datetime.now()
-        response_time = end_time - start_time
-        st.markdown(f"🕒 Bot response time: {response_time.total_seconds()} seconds")
-        message_placeholder.markdown(full_response)
+#         # message_placeholder.markdown(full_response + "▌")
+#         full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response", {"question": prompt}).cau_tra_loi
+#         # Tính thời gian trả lời và in ra màn hình
+#         end_time = datetime.now()
+#         response_time = end_time - start_time
+#         st.markdown(f"🕒 Bot response time: {response_time.total_seconds()} seconds")
+#         message_placeholder.markdown(full_response)
 
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+#     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+
+# # Define the custom CSS style for the button with a larger size
+# # button_style = """
+# #     background-color: #007BFF;  # Change the background color as desired
+# #     color: white;  # Change the text color as desired
+# #     padding: 20px 30px;  # Adjust the padding to adjust the button size (larger size)
+# #     border-radius: 50%;  # Adjust the border radius for a circular shape
+# #     cursor: pointer;
+# #     font-size: 18px;  # Change the font size as desired
+# # """
+
+
+# # Create the button with the custom CSS style
+# if st.button("➕", key="custom_button"):
+#     uploaded_file = st.file_uploader("Choose a file", type=["csv", "pdf", "md", "json"])
+#     if uploaded_file is not None:
+#         # Handle the file upload here
+#         pass
+
+
+
+import streamlit as st
+from datetime import datetime
+
+# Create a Streamlit column layout with two columns
+col1, col2 = st.columns([3, 1])  # Adjust the column ratios as needed
+
+# In col1, place the text input field for chat
+with col1:
+    prompt = st.text_input("What is up?")
+    if st.button("Send"):
+        start_time = datetime.now()
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+            # Perform the chatbot response logic here
+
+            end_time = datetime.now()
+            response_time = end_time - start_time
+            st.markdown(f"🕒 Bot response time: {response_time.total_seconds()} seconds")
+            message_placeholder.markdown(full_response)
+
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+# In col2, place the file upload button
+with col2:
+    # Define the custom CSS style for the circular button
+    button_style = """
+        background-color: #007BFF;  # Change the background color as desired
+        color: white;  # Change the text color as desired
+        width: 40px;  # Set the width and height to create a circular shape
+        height: 40px;
+        border-radius: 50%;  # Make it a circle
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;  # Change the font size as desired
+    """
+
+    # Create a circular button with the custom CSS style using markdown
+    if st.markdown(
+        f"""
+        <style>
+        .custom-button {{
+            {button_style}
+        }}
+        </style>
+        <button class="custom-button" onclick="element.click()">
+            ➕
+        </button>
+        """,
+        unsafe_allow_html=True,
+    ):
+        uploaded_file = st.file_uploader("Choose a file", type=["csv", "pdf", "md", "json"])
+        if uploaded_file is not None:
+            # Handle the file upload here
+            pass
