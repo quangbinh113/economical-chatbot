@@ -21,6 +21,7 @@ def get_urls(query, num_urls):
             if val in url and 'dfat.gov' not in url:
                 urls.append(url)
     return urls
+    
 def delete_all_file(path):
     files = os.listdir(path)
     
