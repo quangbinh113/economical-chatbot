@@ -25,10 +25,7 @@ async def get_response(input_: AIQueryModel):
     # chat = HandleQA(config)
     questionUser = input_.question
     out = AIResponseModel(cau_tra_loi=None)
-    # if input_.question == 'gia co phieu ngay hom nay':
-    #     out.cau_tra_loi = 'may deo mua duoc dau'
-    #     return out
-
+    
     documents = get_data(questionUser)
     # files = os.listdir(path)
     # files = [os.path.join(path,file) for file in files]
