@@ -34,7 +34,7 @@ def get_data(query,num_urls = 2,query_folder = 'data'):
     def process_url(url, i):
         file_name = f'_{i}.txt'
         print(url,file_name)
-        run = 'python src/getdata/get_text.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
+        run = 'python src/getdata/web_extractor.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
         os.system(run)
 
     start = time.time()

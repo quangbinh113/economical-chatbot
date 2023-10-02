@@ -12,6 +12,7 @@ from dateutil.relativedelta import relativedelta
 import plotly.graph_objects as go
 import seaborn as sns
 import pytz
+from utils import date_string_to_timestamp
 
 
 class StockVisualization(object):
@@ -216,7 +217,7 @@ class StockVisualization(object):
                 template='plotly_dark',
                 xaxis_title='Date', 
                 yaxis_title='Price', 
-                title='VNM', 
+                title=self.symbol, 
                 hovermode='x unified',
             )
             fig.show()
@@ -224,6 +225,7 @@ class StockVisualization(object):
         # get plot based on time periods
         time_mark = self.date_difference_description()
         params = self.params
+
         if time_mark == 'hours' or time_mark == 'days':
             params['resolution'] = '1'
             self.get_data(params=params)
@@ -235,7 +237,9 @@ class StockVisualization(object):
 
 
 if __name__ == "__main__":
-    df = StockVisualization('VNM', datetime.now(), datetime.now()-timedelta(days=365))
+    df = StockVisualization('VNG', datetime.now(), datetime.now()-timedelta(days=365))
+    df.plot_data()
+
     # params = {
     #     'symbol': 'VNM',
     #     'resolution': '1',
@@ -244,4 +248,3 @@ if __name__ == "__main__":
     # }
     # data = df.get_data(params=params)
     # data.to_csv('stock_data.csv', index=False)
-    df.plot_data()

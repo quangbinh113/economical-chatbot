@@ -68,3 +68,5 @@ requests
 bs4
 google
 trafilatura
+pytz
+plotly

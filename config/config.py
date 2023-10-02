@@ -1,4 +1,5 @@
-from pydantic import BaseSettings
+# from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 class Config(BaseSettings):
     chunk_size: int
