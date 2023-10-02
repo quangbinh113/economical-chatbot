@@ -18,7 +18,8 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders.pdf import PyMuPDFLoader
 from langchain.document_loaders.xml import UnstructuredXMLLoader
-
+from pathlib import Path
+import json
 
 class FileLoader:
     def __init__(self):
@@ -42,31 +43,27 @@ class FileLoader:
         pass
 
     def csv_loader(self, csv_file):
-        # #check file and load CSV
-        # if uploaded_file :
-        # #use tempfile because CSVLoader only accepts a file_path
-        # with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        # tmp_file.write(uploaded_file.getvalue())
-        # tmp_file_path = tmp_file.name
         '''
-            load và processing CSV by Langchain -> return chain
+            load và processing CSV by Langchain -> return text
         '''
-        csv_loader = CSVLoader(file_path=csv_file, encoding="utf-8")
-        data = csv_loader.load()
-        self.csv_data = []
-        for document in data:
-            # Initialize an empty string to store the combined text
-            combined_text = ""
+        loader = CSVLoader(file_path=csv_file, encoding="utf-8",csv_args={
+                'delimiter': ',',})
+        data = loader.load()
+
+        # self.csv_data = []
+        # for document in data:
+        #     # Initialize an empty string to store the combined text
+        #     combined_text = ""
         
-            # Loop through the columns in the document
-            for column_name, column_value in document.items():
-                # Combine the column name and value as text
-                combined_text += f"{column_name}: {column_value} "
+        #     # Loop through the columns in the document
+        #     for column_name, column_value in document.items():
+        #         # Combine the column name and value as text
+        #         combined_text += f"{column_name}: {column_value} "
         
-            # Append the combined text to the text_data list
-            self.csv_data.append(combined_text.strip())  # Remove trailing space
+        #     # Append the combined text to the text_data list
+        #     self.csv_data.append(combined_text.strip())  # Remove trailing space
         
-        return self.csv_data
+        # return self.csv_data
 
         # embeddings = OpenAIEmbeddings()
         # vectors = FAISS.from_documents(data, embeddings)
@@ -80,12 +77,11 @@ class FileLoader:
         '''
         pdf_reader = PyPDFLoader(pdf_file) 
 
-        text = ""
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            self.pdf_data += page.get_text()
+        for i, page_num in enumerate(pdf_reader.pages):
+            text = page_num.extract_text()
+            if text:
+                self.pdf_data += text
 
-        
         return self.pdf_data
 
 
@@ -101,52 +97,14 @@ class FileLoader:
         self.markdown_data = markdown_loader.load(markdown_text)
 
         return self.markdown_data
-    
-
-    
-    def csv_byte_loader(self, csv_byte):
-        # #check file and load CSV
-        # if uploaded_file :
-        # #use tempfile because CSVLoader only accepts a file_path
-        # with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        # tmp_file.write(uploaded_file.getvalue())
-        # tmp_file_path = tmp_file.name
-        '''
-            load và processing CSV by Langchain -> return chain
-        '''
-        csv_loader = CSVLoader(file_bytes=csv_byte, encoding="utf-8")
-        data = csv_loader.load()
-        self.csv_data = []
-        for document in data:
-            # Initialize an empty string to store the combined text
-            combined_text = ""
-        
-            # Loop through the columns in the document
-            for column_name, column_value in document.items():
-                # Combine the column name and value as text
-                combined_text += f"{column_name}: {column_value} "
-        
-            # Append the combined text to the text_data list
-            self.csv_data.append(combined_text.strip())  # Remove trailing space
-        
-        return self.csv_data
 
 
     def json_loader(self, json_file_path):
         '''
             get list text file Json -> return text
         '''
-        loader = JSONLoader(
-        file_path=json_file_path,
-        jq_schema='.messages[].content',
-        text_content=False)
+        data = json.loads(Path(json_file_path).read_text())
 
-        documents = loader.load()
-        text = []
-        for document in documents:
-            text.append(document.page_content)
-
-        return text
 
     def directory_loader(self, directory_file):
 
@@ -201,5 +159,7 @@ class FileLoader:
 '''
 
     
- 
-    
+if __name__ == "__main__":
+    path = r"C:\Users\Admin\Desktop\Project\Inter_AI_2023\prj-economical-chatbot\file_upload\VIC.csv"
+    loader = FileLoader()
+    print(loader.csv_loader(path))

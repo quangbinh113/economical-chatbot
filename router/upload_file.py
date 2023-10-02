@@ -1,7 +1,7 @@
 from fastapi import APIRouter,UploadFile, File, HTTPException, Query
 from flask import Flask, request, send_file
 from starlette.responses import FileResponse
-from chatdataloader import FileLoader
+from DataLoader.chatdataloader import FileLoader
 from fastapi.responses import StreamingResponse
 import io
 
@@ -62,13 +62,7 @@ async def file_process(file: UploadFile):
 
     filename = file.filename
     print(filename)
-    # Xác định loại tệp dựa trên đuôi tệp (file extension)
-    # file_extension = FileLoader._get_file_extension(filename)
 
-    # if file_extension not in ALLOWED_EXTENSIONS:
-    #     raise HTTPException(status_code=400, detail=f"Unsupported file type {file_extension}")
-
-    # saved_filename = os.path.join(upload_dir, f'{file_extension}')~
     FileLoader().csv_byte_loader(file.file.read())
 
     return {"message": "File uploaded successfully"}

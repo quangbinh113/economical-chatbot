@@ -71,4 +71,5 @@ class DatabaseSession:
 
 
 # session = DatabaseSession(config=DatabaseConfig(Host='127.0.0.1', Port=9011, User='sykros', Password='fqQ3nN4L')).create_db_session()
+
 session = DatabaseSession(config=DatabaseConfig(Host='127.0.0.1', Port=9000, User='david', Password='david')).create_db_session()

@@ -164,3 +164,7 @@ cache/
 
 .google-cookie/
 data/
+
+file_upload/
+
+test_text.py
