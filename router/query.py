@@ -11,7 +11,6 @@ from src.getdata.user_query import get_data
 ai_router = APIRouter()
 chat = HandleQA(config)
 
-
 class AIResponseModel(BaseModel):
     cau_tra_loi: Optional[str]
 
@@ -22,7 +21,8 @@ class AIQueryModel(BaseModel):
 
 @ai_router.post('/get_response')
 async def get_response(input_: AIQueryModel):
-    path = 'data/data'
+    # path = 'data/data'
+    # chat = HandleQA(config)
     questionUser = input_.question
     out = AIResponseModel(cau_tra_loi=None)
     # if input_.question == 'gia co phieu ngay hom nay':

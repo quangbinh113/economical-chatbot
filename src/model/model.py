@@ -3,8 +3,9 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
-# from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+# from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationTokenBufferMemory
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 from src.prompt.prompt import QA_CHAIN_PROMPT_1, QA_CHAIN_PROMPT_2
 
@@ -17,7 +18,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-_ = load_dotenv(find_dotenv())  # read local .env file
+_ = load_dotenv(find_dotenv())
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
@@ -30,7 +31,6 @@ class HandleQA:
             # model_kwargs={"device": "cpu"},
         )
         self.chroma = None
-        self.memory = ConversationBufferMemory()
         # self.llm = ChatOpenAI(
         #     model_name="gpt-3.5-turbo",
         #     temperature=0,
@@ -41,11 +41,13 @@ class HandleQA:
         self.llm = ChatOpenAI(
             model_name="gpt-3.5-turbo",
             temperature=0,
-            verbose=True,
-            # streaming=True,
-            # callback_manager=([StreamingStdOutCallbackHandler()]),
+            verbose=False,
         )
-        self.chain = ConversationChain(llm=self.llm, memory=self.memory, verbose=False)
+        self.memory = ConversationTokenBufferMemory(llm=self.llm,max_token_limit=1500)
+        self.chain = ConversationChain(llm=self.llm, 
+                                       memory=self.memory, 
+                                       verbose=True,
+                                       )
         self.splitter = RecursiveCharacterTextSplitter(
             chunk_size=self.config.chunk_size, chunk_overlap=self.config.chunk_overlap
         )
@@ -139,7 +141,6 @@ class HandleQA:
             answer(str)
         """
         chunks = self.split_context(query, files)
-        print(chunks)
         if len(chunks) > 0:
             self.store_db(chunks)
             query, contents = self.get_query_and_chunk(query)
