@@ -68,3 +68,6 @@ requests
 bs4
 google
 trafilatura
+rarfile
+PyPDF2
+streamlit_extras
