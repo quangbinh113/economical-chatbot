@@ -1,10 +1,10 @@
 import os
 from googlesearch import search
 from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Pool
 import time
-
+from src.getdata.get_text import WebPageTextExtractor
 list_tails = ['.html', '.htm', '.chn', '.aspx', '.ldo']
-
 
 def get_urls(query, num_urls):
     """
@@ -37,22 +37,19 @@ def get_data(query,num_urls = 2,query_folder = 'data'):
         run = 'python src/getdata/web_extractor.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
         os.system(run)
 
+def get_data(query,num_urls = 2):
+    res = []
     start = time.time()
-    if os.path.exists(query_folder) == False:
-        os.makedirs(query_folder)
-    else:
-        delete_all_file(query_folder)
     urls = get_urls(query, num_urls)
-    i = 0
-    
-    with ThreadPoolExecutor(max_workers=100) as executor:  # Adjust max_workers as needed
-        for url in urls:
-            i += 1
-            executor.submit(process_url, url, i)
+    print(urls)
+    for url in urls:
+        text_extractor = WebPageTextExtractor(url)
+        text = text_extractor.get_text_from_div()
+        if text:
+            res.append(text)
 
     print('crawl in:', time.time() - start)
-
-
+    return res
 if __name__ == "__main__":
     query_arr = [
 #         'Thị trường chứng khoán Việt Nam',

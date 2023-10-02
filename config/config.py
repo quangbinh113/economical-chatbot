@@ -9,7 +9,7 @@ class Config(BaseSettings):
     number_of_chunk: int
 
 config = Config(
-    chunk_size = 1000,
+    chunk_size = 900,
     chunk_overlap=0,
     embedding = "keepitreal/vietnamese-sbert",
     similarity_function = "max_marginal_relevance_search",

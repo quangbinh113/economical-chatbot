@@ -162,5 +162,7 @@ cython_debug/
 cache/
 .idea/
 
-.google-cookie/
+.google-cookie
 data/
+.env
+test.ipynb

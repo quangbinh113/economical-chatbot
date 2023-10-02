@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Body, Depends, Response, status, Request, Query, UploadFile, File
-
-from flask import Flask, request, send_file
 from starlette.responses import FileResponse
 from pydantic import BaseModel
 from typing import Optional
@@ -11,8 +9,7 @@ import os
 from src.getdata.user_query import get_data
 
 ai_router = APIRouter()
-
-
+chat = HandleQA(config)
 
 class AIResponseModel(BaseModel):
     cau_tra_loi: Optional[str]
@@ -24,20 +21,19 @@ class AIQueryModel(BaseModel):
 
 @ai_router.post('/get_response')
 async def get_response(input_: AIQueryModel):
-    path = 'data/data'
+    # path = 'data/data'
+    # chat = HandleQA(config)
     questionUser = input_.question
     out = AIResponseModel(cau_tra_loi=None)
     # if input_.question == 'gia co phieu ngay hom nay':
     #     out.cau_tra_loi = 'may deo mua duoc dau'
     #     return out
-    dataCanXuLy = ""
 
-    get_data(questionUser,query_folder = path)
-    files = os.listdir(path)
-    files = [os.path.join(path,file) for file in files]
-    chat = HandleQA(config)
-
-    x = chat.ask_gpt(questionUser,files)
+    documents = get_data(questionUser)
+    # files = os.listdir(path)
+    # files = [os.path.join(path,file) for file in files]
+    
+    x = chat.ask_gpt(questionUser,documents)
 
     # code logic de tra ve cau tra loi
     # crawl data tu html -> file texts -> tong hop cau tra loi -> dua ra cau dung nhat = AI model sau do gan vao response message
