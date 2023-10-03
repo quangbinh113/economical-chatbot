@@ -1,13 +1,11 @@
 import os
 import re
 import requests
+import json
 from bs4 import BeautifulSoup
 import argparse
 import trafilatura
-from dotenv import load_dotenv, find_dotenv
 
-_ = load_dotenv(find_dotenv()) # read local .env file
-news_class_mapping = os.environ["NEWS_CLASS_MAPPING"]
 
 class WebPageTextExtractor(object):
     """
@@ -24,8 +22,31 @@ class WebPageTextExtractor(object):
         self.div_class = None
         self.parenthesis_regex = re.compile(r'\(.+?\)')  # To remove parenthesis content
         self.citations_regex = re.compile(r'\[.+?\]')    # To remove citations, e.g., [1]
-        
-        for key, value in news_class_mapping.items():
+        self.NEWS_CLASS_MAPPING = {
+            'vnexpress': 'sidebar-1',
+            'cafef': 'left_cate totalcontentdetail',
+            'vietstock': 'content',
+            'wikipedia': 'mw-content-container',
+            'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',
+            'thanhnien': 'detail__cmain',
+            'mof.gov': 'new-content cd-content',
+            'vneconomy.vn': 'detail__header',
+            'nhandan.vn': 'main-content article',
+            'baochinhphu.vn': 'detail-mcontent',
+            'tapchicongthuong.vn': 'post-content',
+            'tapchitaichinh.vn': 'detail-wrap',
+            'quochoi.vn': 'container',
+            'vtv.vn': 'noidung',
+            'www.tapchicongsan.org.vn': 'clearfix ContentDetail',
+            'baodautu.vn': 'col630 ml-auto mb40',
+            'tuoitre.vn': 'detail__cmain',
+            'laodong.vn': 'pl',
+            'dangcongsan.vn': 'detail-post hnoneview',
+            'kinhtevadubao.vn': 'post',
+            'tapchinganhang.gov.vn': 'col_left',
+            'dantri.com.vn': 'singular-wrap',
+        }
+        for key, value in self.NEWS_CLASS_MAPPING.items():
             if key in self.url:
                 self.div_class = value
 
@@ -162,4 +183,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    url = r'https://stackoverflow.com/questions/64318609/python-dotenv-not-working-in-custom-package#:~:text=You%20need%20to%20actually%20call%20load_dotenv%20function.%20You,find_dotenv%20load_dotenv%20%28find_dotenv%20%28%29%29%20%23%20or%20load_dotenv%20%28path_to_dotenv_file%29'
+    text_extractor = WebPageTextExtractor(url)
+    text = text_extractor.get_output()
+    print(text)
+    # print(news_class_mapping)
