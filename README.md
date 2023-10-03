@@ -23,6 +23,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#usage">Usage</a></li>
     <li><a href="#contributors">Contributors</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -91,6 +92,19 @@ Install all packages mentioned in requirements.txt
                   'tapchinganhang.gov.vn': 'col_left',  
                   'dantri.com.vn': 'singular-wrap',  
 }
+
+<!-- USAGE EXAMPLES -->
+## Usage
+To run this application, you need to start up two modules:
+
+1. Run the front-end
+   ```sh
+   streamlit run app.py
+   ```
+2. Run the back-end
+   ```sh
+   python main.py
+   ```
 
 <!-- CONTRIBUTORS -->
 ## Contributors
