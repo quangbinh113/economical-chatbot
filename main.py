@@ -22,6 +22,10 @@
 
 from router import query
 from fastapi import FastAPI
+import sys
+
+sys.path.append(__file__)
+
 def init_app() -> FastAPI:
 
 

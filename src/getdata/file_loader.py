@@ -21,6 +21,15 @@ from langchain.document_loaders.xml import UnstructuredXMLLoader
 from langchain.document_loaders import AmazonTextractPDFLoader
 from langchain.document_loaders import PyMuPDFLoader
 from langchain.document_loaders import PyPDFLoader
+import sys
+
+sys.path.append(r"C:\Users\binh.truong\Code\economical-chatbot")
+
+from utils.set_logger import set_logger
+
+
+
+logger = set_logger('file_loader.log')
 
 class FileLoader:
     def __init__(self):
@@ -212,8 +221,16 @@ class FileLoader:
     for check list_file rồi get text ném vào self.dic_data
 '''
 
+
+def test_func():
+    a = "123123123"
+    logger.info("test_func")
+    logger.info("aasdfasdfasdf {}".format(a))
     
  
 if __name__ == "__main__":
+    test_func()
+    logger.info('hello world')
     loader = FileLoader()
+    
     print(loader.csv_loader(r'C:\Users\binh.truong\Code\stock_data.csv'))

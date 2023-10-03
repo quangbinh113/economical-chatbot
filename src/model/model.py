@@ -93,7 +93,7 @@ class HandleQA():
                 
     #     return docs
 
-    def store_db(self,chunks:list[str])->None:
+    def store_db(self, chunks:list[str])->None:
         """
         Add chunks to vector store
         Args:
@@ -109,7 +109,7 @@ class HandleQA():
         print(f'Create chroma in: {time.time() - start}')
         return 
         
-    def get_query_and_chunk(self,query:str,similarity_function:str = 'max_marginal_relevance_search')->tuple[str,list[str]]:
+    def get_query_and_chunk(self, query:str, similarity_function:str = 'max_marginal_relevance_search')->tuple[str,list[str]]:
         '''
         Return the query and the k-most similar contents
         Args:
@@ -130,7 +130,7 @@ class HandleQA():
         print(f'Search chunks in: {time.time() - start}')
         return query,contents
     
-    def ask_gpt(self,query,files):
+    def ask_gpt(self, query,files):
         '''
         Return the answer from the chatGPT
         Args:

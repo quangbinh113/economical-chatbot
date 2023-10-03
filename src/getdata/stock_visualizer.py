@@ -186,6 +186,7 @@ class StockVisualization(object):
                     )
                 ]
             )
+            # logger.info('')
             fig.add_trace(
                 go.Scatter(
                     x=data['Date'],
@@ -234,8 +235,9 @@ class StockVisualization(object):
             _plot_yearly_data(self.data_frame)
 
 
+
 if __name__ == "__main__":
-    df = StockVisualization('VNM', datetime.now(), datetime.now()-timedelta(days=365))
+    df = StockVisualization('FPT', datetime.now(), datetime.now()-timedelta(days=365))
     # params = {
     #     'symbol': 'VNM',
     #     'resolution': '1',
