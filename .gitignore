@@ -1,11 +1,6 @@
-*.google-cookie/
-*.data/
-*.env/
-*.vscode/
-*.steamlit/
-*.idea/
+data/
 *.env
-*.vscode
-*.steamlit
-*.idea
-*.google-cookie
+.vscode/
+.steamlit/
+.idea/
+**/*.google-cookie
