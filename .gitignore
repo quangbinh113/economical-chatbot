@@ -168,3 +168,7 @@ data/
 .vscode/
 .steamlit/
 .idea/
+.env
+.vscode
+.steamlit
+.idea
