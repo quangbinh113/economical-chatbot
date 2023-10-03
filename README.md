@@ -35,8 +35,9 @@ This repository is used to build a friendly Vietnamese Chatbot which can answer 
 
 
 ### Built With
-[![Python][Python.com]][Python-url]
-[![OpenAI Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/OpenAI_logo.svg/320px-OpenAI_logo.svg.png)](https://www.openai.com/)
+[![Python][Python.com]][https://www.python.org/]
+
+[![OpenAI](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/OpenAI_logo.svg/320px-OpenAI_logo.svg.png)](https://www.openai.com/)
 
 
 
