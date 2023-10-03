@@ -65,6 +65,7 @@ Install all packages mentioned in requirements.txt
    ```
 3. Create the .env file inside the economical-chatbot folder. Configure all of the following environment variables:
 - OPENAI_API_KEY
+
 - NEWS_CLASS_MAPPING = {  
         'vnexpress': 'sidebar-1',  
         'cafef': 'left_cate totalcontentdetail','vietstock': 'content',  
