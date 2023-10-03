@@ -67,26 +67,26 @@ Install all packages mentioned in requirements.txt
 - OPENAI_API_KEY
 
 - NEWS_CLASS_MAPPING = {  
-    \t'vnexpress': 'sidebar-1',  
-    \t'cafef': 'left_cate totalcontentdetail','vietstock': 'content',  
-    \t'wikipedia': 'mw-content-container',  
-    \t'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',  
-    \t'thanhnien': 'detail__cmain',  
-    \t'mof.gov': 'new-content cd-content',  
-    \t'vneconomy.vn': 'detail__header',  
-    \t'nhandan.vn': 'main-content article',  
-    \t'baochinhphu.vn': 'detail-mcontent'  
-    \t'tapchicongthuong.vn': 'post-content'  
-    \t'tapchitaichinh.vn': 'detail-wrap'  
-    \t'quochoi.vn': 'container'  
-    \t'vtv.vn': 'noidung'  
-    \t'www.tapchicongsan.org.vn': 'clearfix ContentDetail'  
-    \t'baodautu.vn': 'col630 ml-auto mb40'  
-    \t'tuoitre.vn': 'detail__cmain'  
-    \t'laodong.vn': 'pl'  
-    \t'dangcongsan.vn': 'detail-post hnoneview'  
-    \t'kinhtevadubao.vn': 'post',  
-    \t'tapchinganhang.gov.vn': 'col_left',  
-    \t'dantri.com.vn': 'singular-wrap',  
+                  'vnexpress': 'sidebar-1',  
+                  'cafef': 'left_cate totalcontentdetail','vietstock': 'content',  
+                  'wikipedia': 'mw-content-container',  
+                  'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',  
+                  'thanhnien': 'detail__cmain',  
+                  'mof.gov': 'new-content cd-content',  
+                  'vneconomy.vn': 'detail__header',  
+                  'nhandan.vn': 'main-content article',  
+                  'baochinhphu.vn': 'detail-mcontent'  
+                  'tapchicongthuong.vn': 'post-content'  
+                  'tapchitaichinh.vn': 'detail-wrap'  
+                  'quochoi.vn': 'container'  
+                  'vtv.vn': 'noidung'  
+                  'www.tapchicongsan.org.vn': 'clearfix ContentDetail'  
+                  'baodautu.vn': 'col630 ml-auto mb40'  
+                  'tuoitre.vn': 'detail__cmain'  
+                  'laodong.vn': 'pl'  
+                  'dangcongsan.vn': 'detail-post hnoneview'  
+                  'kinhtevadubao.vn': 'post',  
+                  'tapchinganhang.gov.vn': 'col_left',  
+                  'dantri.com.vn': 'singular-wrap',  
 }
 
