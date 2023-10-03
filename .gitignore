@@ -4,3 +4,4 @@ data/
 .steamlit/
 .idea/
 **/*.google-cookie
+file_upload/
