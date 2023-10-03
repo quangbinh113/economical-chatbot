@@ -21,30 +21,8 @@ class WebPageTextExtractor(object):
         self.div_class = None
         self.parenthesis_regex = re.compile(r'\(.+?\)')  # To remove parenthesis content
         self.citations_regex = re.compile(r'\[.+?\]')    # To remove citations, e.g., [1]
-        news_class_mapping = {
-            'vnexpress': 'sidebar-1',
-            'cafef': 'left_cate totalcontentdetail',
-            'vietstock': 'content',
-            'wikipedia': 'mw-content-container',
-            'tinnhanhchungkhoan': 'leftBlock wrap_noi_dung',
-            'thanhnien': 'detail__cmain',
-            'mof.gov': 'new-content cd-content',
-            'vneconomy.vn': 'detail__header',
-            'nhandan.vn': 'main-content article',
-            'baochinhphu.vn': 'detail-mcontent',
-            'tapchicongthuong.vn': 'post-content',
-            'tapchitaichinh.vn': 'detail-wrap',
-            'quochoi.vn': 'container',
-            'vtv.vn': 'noidung',
-            'www.tapchicongsan.org.vn': 'clearfix ContentDetail',
-            'baodautu.vn': 'col630 ml-auto mb40',
-            'tuoitre.vn': 'detail__cmain',
-            'laodong.vn': 'pl',
-            'dangcongsan.vn': 'detail-post hnoneview',
-            'kinhtevadubao.vn': 'post',
-            'tapchinganhang.gov.vn': 'col_left',
-            'dantri.com.vn': 'singular-wrap',
-        }
+        
+        news_class_mapping = os.environ.get("NEWS_CLASS_MAPPING")
         for key, value in news_class_mapping.items():
             if key in self.url:
                 self.div_class = value
@@ -137,6 +115,22 @@ class WebPageTextExtractor(object):
                     print("No text to save.")
         except Exception as e:
             print(f"An error occurred while saving the file: {str(e)}")
+
+    def get_output(self) -> str:
+        """
+        A function to get the extracted text.
+        Returns:
+            extracted_text: (str) -> A string containing the extracted text.
+        """
+        try:
+            extracted_text = self.get_text_from_div()
+            if extracted_text:
+                return extracted_text
+            else:
+                return None
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            return None
 
 # ------------------------------------------------------------------------------
 def main():

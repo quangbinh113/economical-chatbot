@@ -71,3 +71,6 @@ trafilatura
 rarfile
 PyPDF2
 streamlit_extras
+unstructured
+pdf2image
+pdfminer
