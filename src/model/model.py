@@ -11,7 +11,7 @@ from langchain.memory import ConversationBufferMemory
 from src.prompt.prompt import QA_CHAIN_PROMPT
 
 import openai
-from dotenv import load_dotenv,find_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 import time
 

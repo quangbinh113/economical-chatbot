@@ -4,8 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 import argparse
 import trafilatura
-from functools import reduce
+from dotenv import load_dotenv, find_dotenv
 
+_ = load_dotenv(find_dotenv()) # read local .env file
+news_class_mapping = os.environ["NEWS_CLASS_MAPPING"]
 
 class WebPageTextExtractor(object):
     """
@@ -23,7 +25,6 @@ class WebPageTextExtractor(object):
         self.parenthesis_regex = re.compile(r'\(.+?\)')  # To remove parenthesis content
         self.citations_regex = re.compile(r'\[.+?\]')    # To remove citations, e.g., [1]
         
-        news_class_mapping = os.environ.get("NEWS_CLASS_MAPPING")
         for key, value in news_class_mapping.items():
             if key in self.url:
                 self.div_class = value

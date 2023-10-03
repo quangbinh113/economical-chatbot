@@ -12,6 +12,11 @@ from dateutil.relativedelta import relativedelta
 import plotly.graph_objects as go
 import seaborn as sns
 import pytz
+import os
+from dotenv import load_dotenv, find_dotenv
+
+_ = load_dotenv(find_dotenv()) # read local .env file
+data_path = os.environ["DATA_PATH"]
 
 
 class StockVisualization(object):
@@ -23,7 +28,7 @@ class StockVisualization(object):
     def __init__(
         self, symbol: str='FPT', 
         start_date=datetime.now(),
-        end_date=datetime.now()-timedelta(days=7)
+        end_date=datetime.now()-timedelta(days=7),
         ) -> None:
         """
         Class Attributes:
@@ -62,10 +67,10 @@ class StockVisualization(object):
     def date_difference_description(self) -> str:
         """ 
         Calculate the difference between datetime1 and datetime2
-        If the difference is less than a month, return 'hours'
-        If the difference is less than a year, return 'days'
-        If the difference is less than 5 years, return 'months'
-        If the difference is more than 5 years, return 'years'
+        If the difference is less than a day, return 'hours'
+        If the difference is less than a week, return 'days'
+        If the difference is less than a year, return 'months'
+        If the difference is more than a year, return 'years'
         ----------
         Args: 
             datetime1: datetime -> start date
@@ -189,7 +194,9 @@ class StockVisualization(object):
                 title=self.symbol, 
                 hovermode='x unified',
             )
-            fig.show()
+            save_path = os.path.join(data_path, 'stock_visualization.html')
+            fig.write_html(save_path)
+            # fig.show()
         
         def _plot_yearly_data(data):
             """
@@ -223,7 +230,6 @@ class StockVisualization(object):
                     )
                 ]
             )
-            # logger.info('')
             fig.add_trace(
                 go.Scatter(
                     x=data['Date'],
@@ -257,11 +263,15 @@ class StockVisualization(object):
                 title=self.symbol, 
                 hovermode='x unified',
             )
-            fig.show()
+            save_path = os.path.join(data_path, 'stock_visualization.html')
+            fig.write_html(save_path)
+            # fig.show()
 
         # get plot based on time periods
         time_mark = self.date_difference_description()
         params = self.params
+
+        # Classify time periods to decide the resolution -> daily or yearly type of plot
         if time_mark == 'hours' or time_mark == 'days':
             params['resolution'] = '1'
             self.get_data(params=params)
@@ -284,3 +294,5 @@ if __name__ == "__main__":
     # data = df.get_data(params=params)
     # data.to_csv('stock_data.csv', index=False)
     df.plot_data()
+
+    # print(os.environ.get("OPENAI_API_KEY"))
