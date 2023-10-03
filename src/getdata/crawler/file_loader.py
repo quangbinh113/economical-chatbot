@@ -16,15 +16,29 @@ import rarfile
 import json
 from pathlib import Path
 from langchain.document_loaders import PyPDFLoader
+
 # -------------------------------------------------------------
 # TODO 1. Thêm hàm check định dạng 
 # TODO 2. Thêm delimeter cho text_loader
 # -------------------------------------------------------------
+
 class FileLoader(object):
     """
     Class load file
+    -> User will be able to load a file with an abytrary extension
+    -> The file will be loaded using the appropriate loader
+    -> The output will be a list of documents
     """
     def __init__(self)  -> None:
+        """
+        Class Attributes:
+            csv_data: (list) -> A list of file contents from the csv.
+            pdf_data: (list) -> A list of file contents from the pdf.
+            markdown_data: (list) -> A list of file contents from the markdown.
+            directory_data: (list) -> A list of file contents from the directory.
+            json_data: (list) -> A list of file contents from the json.
+            text: (list) -> A list of file contents from the text.
+        """
         self.csv_data = None
         self.pdf_data = None
         self.markdown_data = None
@@ -32,6 +46,7 @@ class FileLoader(object):
         self.json_data = None
         self.text = None
         # self.extension = None
+
 
     def _get_file_extension(self, filename: str) :
         """
@@ -43,10 +58,19 @@ class FileLoader(object):
         """
         return os.path.splitext(filename)[1]
 
+
     def text_loader(self, text_file: str) -> list:
+        """
+        Load and processing text file -> return documents
+        Args:
+            text_file: (str) -> The text file to load.
+        Returns:
+            List[str]: A list of file contents from the text.
+        """
         loader = TextLoader(text_file)
         self.text = loader.load()
         return self.text
+
 
     def csv_loader(self, csv_file: str) -> list:
         """
@@ -67,6 +91,7 @@ class FileLoader(object):
 
         return self.csv_data
 
+
     def pdf_loader(self, pdf_file: str) -> list:
         """
         Get text of file PDF -> return documents
@@ -78,6 +103,7 @@ class FileLoader(object):
         loader = PyPDFLoader(pdf_file)
         self.pdf_data = loader.load()
         return self.pdf_data
+
 
     def markdown_loader(self, markdown_file: str) -> list:
         """
@@ -91,6 +117,7 @@ class FileLoader(object):
         self.markdown_data = markdown_loader.load()
         return self.markdown_data
 
+
     def json_loader(self, json_file_path: str) -> str:
         """
         Get list text file Json -> return documents
@@ -101,6 +128,7 @@ class FileLoader(object):
         """
         self.json_data = json.loads(Path(json_file_path).read_text())
         return self.json_data
+
 
     def directory_loader(self, directory_file: str) -> list:
         """

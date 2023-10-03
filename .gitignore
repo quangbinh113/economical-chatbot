@@ -164,3 +164,11 @@ cache/
 
 .google-cookie/
 data/
+.env/
+.vscode/
+.steamlit/
+.idea/
+.env
+.vscode
+.steamlit
+.idea
