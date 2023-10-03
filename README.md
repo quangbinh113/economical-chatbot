@@ -1,9 +1,12 @@
 <!-- PROJECT LOGO -->
 <div align="center">
 
+  <img src="https://png.pngtree.com/element_our/png/20181227/growth-vector-icon-png_286772.jpg" alt="Project Logo">
+
   <h1 align="center"><br>Vietnamese Economical Chatbot</br></h1>
 
 </div>
+
 
 
 <!-- TABLE OF CONTENTS -->
