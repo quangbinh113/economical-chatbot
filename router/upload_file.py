@@ -15,26 +15,6 @@ upload_dir = os.path.join(rootDir, "file_upload")  # Replace with the actual pat
 ALLOWED_EXTENSIONS = ['.pdf', '.csv', '.json', '.md', '.zip', '.rar']
 
 
-# @upload_file_router.get('/get_model')
-# async def get_model(model: str = Query(..., description="Stock ticker")):
-#     # Construct the full path to the model file
-#     global model_dir
-#     model_filename = os.path.join(model_dir,
-#                                   model)  # Replace '.h5' with the appropriate extension (.h5 or .pkl)
-
-#     if os.path.exists(model_filename):
-#         # Read the model file as binary data
-#         with open(model_filename, 'rb') as model_file:
-#             model_content = model_file.read()
-
-#         # Use StreamingResponse to send the model file as a response
-#         return StreamingResponse(io.BytesIO(model_content), media_type='application/octet-stream',
-#                                  headers={
-#                                      "Content-Disposition": f"attachment; filename={model}"})  # Adjust the filename extension
-#     else:
-#         return "Model file not found", 404
-
-
 @upload_file_router.post('/upload')
 async def upload_file(file: UploadFile):
     global upload_dir
