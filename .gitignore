@@ -12,3 +12,4 @@ test/
 notebooks/
 config/
 .ipynb_checkpoints
+.streamlit
