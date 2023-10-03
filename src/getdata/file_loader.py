@@ -19,6 +19,8 @@ from langchain.document_loaders.xml import UnstructuredXMLLoader
 from langchain.document_loaders.json_loader import JSONLoader
 from langchain.document_loaders.markdown import UnstructuredMarkdownLoader 
 from langchain.document_loaders.text import TextLoader
+import zipfile
+import rarfile
 # sys.path.append(r"C:\Users\binh.truong\Code\economical-chatbot")
 
 from utils.set_logger import set_logger
@@ -106,6 +108,7 @@ class FileLoader:
 
         return self.json_data
 
+
     def directory_loader(self, directory_file):
 
         '''
@@ -122,6 +125,46 @@ class FileLoader:
             'txt': TextLoader,
         }
 
+        def load_archive_contents(archive_file_path):
+            """
+            Load the contents of an archive file (either .zip or .rar).
+
+            Args:
+                archive_file_path (str): The path to the archive file.
+
+            Returns:
+                List[str]: A list of file contents from the archive.
+            """
+            try:
+                archive_documents = []
+
+                if archive_file_path.endswith('.zip'):
+                    # Handle .zip files
+                    with zipfile.ZipFile(archive_file_path, 'r') as zip_file:
+                        for inner_filename in zip_file.namelist():
+                            doc = process_directory(inner_filename)
+                            # with zip_file.open(inner_filename) as inner_file:
+                            #     # Read and decode the content as utf-8
+                            #     content = inner_file.read().decode('utf-8')
+                            archive_documents.append(doc)
+
+                elif archive_file_path.endswith('.rar'):
+                    # Handle .rar files
+                    with rarfile.RarFile(archive_file_path, 'r') as rar_file:
+                        for inner_filename in rar_file.namelist():
+                            doc = process_directory(inner_filename)
+                            # with rar_file.open(inner_filename) as inner_file:
+                            #     # Read and decode the content as utf-8
+                            #     content = inner_file.read().decode('utf-8')
+                            archive_documents.append(doc)
+
+                return archive_documents
+            
+            except Exception as e:
+                print(f"Error loading contents from {archive_file_path}: {e}")
+                return []
+
+
         def create_directory_loader(file_type, directory_file):
             return DirectoryLoader(
                 path=directory_file,
@@ -131,14 +174,14 @@ class FileLoader:
 
         def process_directory(directory_file):
 
-            if self._get_file_extension(directory_file) == '.zip':
-                pass
-            elif self._get_file_extension(directory_file) == '.rar':
-                pass
-            else:
-                print("Pls only file directory .zip || .rar")
+            documents = {}
+            for file_type, loader_cls in loaders.items():
+                loader = create_directory_loader(file_type, directory_file, loader_cls)
+                documents[file_type] = loader.load()
 
-            # Create DirectoryLoader instances for each file type
+            return documents
+
+            # # Create DirectoryLoader instances for each file type
             # pdf_loader = create_directory_loader('.pdf', '/path/to/your/directory')
             # xml_loader = create_directory_loader('.xml', '/path/to/your/directory')
             # csv_loader = create_directory_loader('.csv', '/path/to/your/directory')
