@@ -10,6 +10,7 @@ from functools import reduce
 class WebPageTextExtractor(object):
     """
     A class to extract text from a web page.
+    ------------
     Attributes:
         url: (str) -> The URL of the web page.
         div_class: (str) -> The class of the <div> tag containing the text.
@@ -27,9 +28,13 @@ class WebPageTextExtractor(object):
             if key in self.url:
                 self.div_class = value
 
+
     def get_text_from_tag(self, tag: BeautifulSoup) -> str:
         """
         A recursive function to extract text from header and content tags within a <div> tag.
+        The function will recursively call itself to extract text from child tags.
+        It will ignore tags that contain redundant information, e.g., cite, symbol, etc.
+        -----------
         Args:
             tag: (object) -> A BeautifulSoup tag object.
         Returns:
@@ -52,9 +57,11 @@ class WebPageTextExtractor(object):
 
         return extracted_text
 
+
     def get_text_from_div(self) -> str:
         """
         A function to get text from header and content tags within a <div> tag.
+        ------------
         Returns:
             extracted_text: (str) -> A string containing the extracted text.
         """
@@ -95,9 +102,11 @@ class WebPageTextExtractor(object):
             print(f"An error occurred: {str(e)}")
             return None
 
+
     def save_text_to_file(self, output_dir:str, file_name: str) -> None:
         """
         A function to save the extracted text to a file.
+        ------------
         Args:
             output_dir: (str) -> The output directory to save the text file.
             file_name: (str) -> The name of the output text file.
@@ -116,9 +125,11 @@ class WebPageTextExtractor(object):
         except Exception as e:
             print(f"An error occurred while saving the file: {str(e)}")
 
+
     def get_output(self) -> str:
         """
         A function to get the extracted text.
+        ------------
         Returns:
             extracted_text: (str) -> A string containing the extracted text.
         """

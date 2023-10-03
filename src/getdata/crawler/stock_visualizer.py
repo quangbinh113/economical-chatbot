@@ -18,12 +18,20 @@ class StockVisualization(object):
     """
     A class to visualize stock data.
     Data source: VNDIRECT API.
+    REST API from candle stick chart OHLCV of each stock symbol in Vietnam stock market.
     """
     def __init__(
         self, symbol: str='FPT', 
         start_date=datetime.now(),
         end_date=datetime.now()-timedelta(days=7)
         ) -> None:
+        """
+        Class Attributes:
+            symbol: (str) -> Stock symbol.
+            resolution: (str) -> Time resolution, e.g., 1, D, W, M, Y.
+            start_date: (datetime) -> Start date.
+            end_date: (datetime) -> End date.
+        """
         self.symbol = symbol
         # self.resolution = resolution
         self.start_date = start_date
@@ -43,15 +51,22 @@ class StockVisualization(object):
             'to': int(self.start_date.timestamp()),
         }
     
+
     def __str__(self) -> str:
         return f'''StockVisualization(
             symbol={self.symbol}, resolution={self.resolution}, 
             start_date={self.start_date}, end_date={self.end_date}
         )'''
 
+
     def date_difference_description(self) -> str:
         """ 
         Calculate the difference between datetime1 and datetime2
+        If the difference is less than a month, return 'hours'
+        If the difference is less than a year, return 'days'
+        If the difference is less than 5 years, return 'months'
+        If the difference is more than 5 years, return 'years'
+        ----------
         Args: 
             datetime1: datetime -> start date
             datetime2: datetime -> end date
@@ -69,9 +84,12 @@ class StockVisualization(object):
         else:
             return 'years'
 
+
     def get_data(self, params) -> pd.DataFrame:
         """
         A function to get stock data from VNDIRECT API.
+        The data will be open, high, low, close, volume, and date.
+        ------------
         Args:
             params: dict -> API parametters
         Returns:
@@ -101,15 +119,26 @@ class StockVisualization(object):
         self.data_frame = data
         return self.data_frame
     
+
     def plot_data(self) -> None:
         """
         A function to plot stock data.
+        Library used: Plotly
+        Style: Candlestick
+        ------------
         Args:
             data: (pd.DataFrame) -> A DataFrame containing stock data.
+        Returns:
+            Interactive plotly chart: .html file
         """
         def _plot_daily_data(data: pd.DataFrame) -> None:
             """
             Plot daily data for time periods less than a month
+            ------------
+            Args:
+                data: (pd.DataFrame) -> A DataFrame containing stock data.
+            Returns:
+                Interactive plotly chart: .html file
             """
             fig = go.Figure(
                 data=[
@@ -157,12 +186,20 @@ class StockVisualization(object):
                 template='plotly_dark',
                 xaxis_title='Date', 
                 yaxis_title='Price', 
-                title='VNM', 
+                title=self.symbol, 
                 hovermode='x unified',
             )
             fig.show()
         
         def _plot_yearly_data(data):
+            """
+            Plot yearly data for time periods more than a month
+            ------------
+            Args:
+                data: (pd.DataFrame) -> A DataFrame containing stock data.
+            Returns:
+                Interactive plotly chart: .html file
+            """
             data['20wma'] = data['close'].rolling(window=20).mean()
             fig = go.Figure(
                 data=[
@@ -217,7 +254,7 @@ class StockVisualization(object):
                 template='plotly_dark',
                 xaxis_title='Date', 
                 yaxis_title='Price', 
-                title='VNM', 
+                title=self.symbol, 
                 hovermode='x unified',
             )
             fig.show()
@@ -237,7 +274,7 @@ class StockVisualization(object):
 
 
 if __name__ == "__main__":
-    df = StockVisualization('FPT', datetime.now(), datetime.now()-timedelta(days=365))
+    df = StockVisualization('HPG', datetime.now(), datetime.now()-timedelta(days=5))
     # params = {
     #     'symbol': 'VNM',
     #     'resolution': '1',
