@@ -95,7 +95,7 @@ Install all packages mentioned in requirements.txt
 <!-- CONTRIBUTORS -->
 ## Contributors
 
-This project was developed as part of the training course. The project was developed by AI Intern 3AE, a team of 3 students:
+This project was developed as part of the training course. The project was developed by AI Intern 3AE, a team of 3 intern employees:
 
 - [Huy Anh Do](https://github.com/huyanhdo2023)
 - [David Huy Ng](https://github.com/Godfreeyyy)
