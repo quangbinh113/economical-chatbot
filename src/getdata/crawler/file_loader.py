@@ -171,6 +171,37 @@ class FileLoader(object):
         self.directory_data = _load_archive_contents(directory_file)
         return self.directory_data
     
+    def load_file(self, file_path: str) -> list:
+        """
+        Load a file and determine its type, then call the appropriate loader.
+        Args:
+            file_path: (str) -> The path to the file to load.
+        Returns:
+            List[str]: A list of file contents.
+        """
+        file_extension = self._get_file_extension(file_path)
+
+        try:
+            if file_extension == ".pdf":
+                return self.pdf_loader(file_path)
+            elif file_extension == ".csv":
+                return self.csv_loader(file_path)
+            elif file_extension == ".md":
+                return self.markdown_loader(file_path)
+            elif file_extension == ".json":
+                return self.json_loader(file_path)
+            elif file_extension == ".txt":
+                return self.text_loader(file_path)
+            elif file_extension in (".zip", ".rar"):
+                return self.directory_loader(file_path)
+            else:
+                print(f"Unsupported file type: {file_extension}")
+                return []
+        except Exception as e:
+            print(f"Error loading file {file_path}: {e}")
+            return []
+
+
 
 
 if __name__ == "__main__":
@@ -178,7 +209,7 @@ if __name__ == "__main__":
     # load2 = FileLoader().json_loader(r'C:\Users\binh.truong\Code\economical-chatbot\file_upload\tesst.json')
     load3 = FileLoader()
     
-    load3.text_loader(r"C:\Users\binh.truong\Code\economical-chatbot\data\wiki.txt")
-    print(load3.text)
+    print(load3.load_file(r"C:\Users\Admin\Desktop\Project\Inter_AI_2023\prj-economical-chatbot\data\wiki.txt"))
+    
 
     # print(load3)
