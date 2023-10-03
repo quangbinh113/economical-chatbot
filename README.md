@@ -23,6 +23,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#contributors">Contributors</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -90,3 +92,16 @@ Install all packages mentioned in requirements.txt
                   'dantri.com.vn': 'singular-wrap',  
 }
 
+<!-- CONTRIBUTORS -->
+## Contributors
+
+This project was developed as part of the training course. The project was developed by AI Intern 3AE, a team of 3 students:
+
+- [Huy Anh Do](https://github.com/huyanhdo2023)
+- [David Huy Ng](https://github.com/Godfreeyyy)
+- [Binh Truong](https://github.com/quangbinh113)
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+Thanks to Mr. Pham Dinh Khanh for guiding us in this project.
