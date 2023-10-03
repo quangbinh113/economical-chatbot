@@ -17,10 +17,6 @@ import json
 from pathlib import Path
 from langchain.document_loaders import PyPDFLoader
 
-# -------------------------------------------------------------
-# TODO 1. Thêm hàm check định dạng 
-# TODO 2. Thêm delimeter cho text_loader
-# -------------------------------------------------------------
 
 class FileLoader(object):
     """
