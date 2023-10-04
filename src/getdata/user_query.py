@@ -37,7 +37,7 @@ def get_urls(query, num_urls):
 #         run = 'python src/getdata/web_extractor.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
 #         os.system(run)
 
-def get_data(query,num_urls = 2):
+def get_data(query, num_urls = 5):
     res = []
     start = time.time()
     urls = get_urls(query, num_urls)
