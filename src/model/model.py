@@ -39,7 +39,7 @@ class HandleQA:
         #     callback_manager=([StreamingStdOutCallbackHandler()]),
         # )
         self.llm = ChatOpenAI(
-            model_name="gpt-3.5-turbo",
+            model_name="gpt-3.5-turbo-16k-0613",
             temperature=0,
             verbose=False,
         )
@@ -87,7 +87,7 @@ class HandleQA:
         print(f"Splitting in: {time.time()-start}")
 
         return [item.squeeze()[()] for item in chunks]
-
+  
     def store_db(self, chunks: list[str]) -> None:
         """
         Add chunks to vector store

@@ -3,7 +3,7 @@ from googlesearch import search
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Pool
 import time
-from src.getdata.get_text import WebPageTextExtractor
+from src.getdata.web_extractor import WebPageTextExtractor
 list_tails = ['.html', '.htm', '.chn', '.aspx', '.ldo']
 
 def get_urls(query, num_urls):
@@ -22,25 +22,26 @@ def get_urls(query, num_urls):
                 urls.append(url)
     return urls
     
-def delete_all_file(path):
-    files = os.listdir(path)
+# def delete_all_file(path):
+#     files = os.listdir(path)
     
-    for file in files:
-        f = os.path.join(path,file)
-        if os.path.isfile(f):
-            os.remove(f)
+#     for file in files:
+#         f = os.path.join(path,file)
+#         if os.path.isfile(f):
+#             os.remove(f)
     
-def get_data(query,num_urls = 2,query_folder = 'data'):
-    def process_url(url, i):
-        file_name = f'_{i}.txt'
-        print(url,file_name)
-        run = 'python src/getdata/web_extractor.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
-        os.system(run)
+# def get_data(query,num_urls = 2,query_folder = 'data'):
+#     def process_url(url, i):
+#         file_name = f'_{i}.txt'
+#         print(url,file_name)
+#         run = 'python src/getdata/web_extractor.py {0} --output-dir={1} --file-name={2}'.format(url, query_folder, file_name)
+#         os.system(run)
 
 def get_data(query,num_urls = 2):
     res = []
     start = time.time()
     urls = get_urls(query, num_urls)
+    urls = set(urls)
     print(urls)
     for url in urls:
         text_extractor = WebPageTextExtractor(url)
