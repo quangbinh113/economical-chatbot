@@ -63,7 +63,7 @@ typing_extensions==4.8.0
 urllib3==2.0.4
 yarg==0.1.9
 yarl==1.9.2
-chromadb
+chromadb==0.4.13
 requests
 bs4
 google
@@ -72,6 +72,4 @@ rarfile
 PyPDF2
 streamlit_extras
 unstructured
-pdf2image
-pdfminer
 tiktoken

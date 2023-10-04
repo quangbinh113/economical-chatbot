@@ -8,9 +8,9 @@ cache/
 file_upload/
 .env
 .venv/
-__pycache__
+__pycache__/
 test/
 notebooks/
 config/
-.ipynb_checkpoints
+.ipynb_checkpoints/
 # .streamlit
