@@ -77,6 +77,7 @@ Install all packages mentioned in requirements.txt
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
 To run this application, you need to start up two modules:
 
 1. Run the front-end
