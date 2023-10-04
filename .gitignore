@@ -2,7 +2,7 @@ data/
 cache/
 *.env
 .vscode/
-.steamlit/
+# .steamlit/
 .idea/
 **/*.google-cookie
 file_upload/
@@ -13,4 +13,4 @@ test/
 notebooks/
 config/
 .ipynb_checkpoints
-.streamlit
+# .streamlit

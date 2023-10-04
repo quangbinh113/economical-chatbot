@@ -74,3 +74,4 @@ streamlit_extras
 unstructured
 pdf2image
 pdfminer
+tiktoken

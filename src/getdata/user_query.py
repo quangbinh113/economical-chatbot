@@ -51,6 +51,8 @@ def get_data(query,num_urls = 2):
 
     print('crawl in:', time.time() - start)
     return res
+
+
 if __name__ == "__main__":
     query_arr = [
 #         'Thị trường chứng khoán Việt Nam',
