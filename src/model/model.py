@@ -7,7 +7,7 @@ from langchain.chains import ConversationChain
 from langchain.memory import ConversationTokenBufferMemory
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-from src.prompt.prompt import QA_CHAIN_PROMPT_1, QA_CHAIN_PROMPT_2
+from src.prompt.prompt import QA_CHAIN_PROMPT_1, QA_CHAIN_PROMPT_2,QA_CHAIN_PROMPT_3
 
 import openai
 from dotenv import load_dotenv, find_dotenv
@@ -150,6 +150,7 @@ class HandleQA:
             )
         else:
             message = QA_CHAIN_PROMPT_2.format_messages(question=query)
+        # message = QA_CHAIN_PROMPT_3.format_messages(text = query)
         start = time.time()
         answer = self.chain(message[0].content)
         print(f"answer in: {time.time() - start}")

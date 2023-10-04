@@ -232,8 +232,8 @@ if __name__ == "__main__":
     # load = FileLoader().csv_loader(r'C:\Users\binh.truong\Code\economical-chatbot\file_upload\VIC.csv')
     # load2 = FileLoader().json_loader(r'C:\Users\binh.truong\Code\economical-chatbot\file_upload\tesst.json')
     load3 = FileLoader()
-    
-    print(load3.load_file(r"C:\Users\Admin\Desktop\Project\Inter_AI_2023\prj-economical-chatbot\data\wiki.txt"))
+    x = load3.load_file(r"C:\Users\anh.do\Desktop\economical-chatbot\NLP with hugging face.pdf")
+    print(x[330])
     
 
     # print(load3)

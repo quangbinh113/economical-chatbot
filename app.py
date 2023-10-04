@@ -21,7 +21,6 @@ background-position: center;
 border-color: transparent
 }}
 
-
 [class = "stChatFloatingInputContainer css-90vs21 e1d2x3se2"] {{
 border-radius: 20px;
 margin-bottom: 5px;
@@ -29,13 +28,10 @@ height: 100px;
 background-color: rgb(0, 0, 0, 0);
 }}
 
-
-
 [class="css-s1k4sy e1d2x3se4"] {{
 align-self:center;
 margin-bottom: 20px
 }}
-
 
 </style>
 """

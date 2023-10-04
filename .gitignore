@@ -14,3 +14,5 @@ notebooks/
 config/
 .ipynb_checkpoints/
 # .streamlit
+*.ipynb
+venv
