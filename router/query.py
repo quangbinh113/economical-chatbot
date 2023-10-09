@@ -5,13 +5,24 @@ from typing import Optional
 import os
 from src.model.model import HandleQA
 from config.config import config
-import os 
+import os
 from src.getdata.user_query import get_data
+from router.history_router import history_router
+from router.thread_router import thread_router
+from router.save_history_click import history_click
 
 ai_router = APIRouter()
+
 chat = HandleQA(config)
 
+ai_router.include_router(thread_router, prefix="/thread")
+ai_router.include_router(history_router, prefix="/history")
+ai_router.include_router(history_click, prefix="/history_click")
+
+
+
 class AIResponseModel(BaseModel):
+
     cau_tra_loi: Optional[str]
 
 
@@ -25,7 +36,6 @@ async def get_response(input_: AIQueryModel):
     # chat = HandleQA(config)
     questionUser = input_.question
     out = AIResponseModel(cau_tra_loi=None)
-    
     documents = get_data(questionUser)
     # files = os.listdir(path)
     # files = [os.path.join(path,file) for file in files]

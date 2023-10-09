@@ -169,6 +169,8 @@ if uploadbtn or st.session_state.uploadbtn_state:
         st.sidebar.write("Uploading file to API...")
         document_data = api.upload_file_to_api(UPLOAD_API_URL, uploaded_file)
 
+        print(document_data)
+
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 st.sidebar.button('Save Chat History', on_click=save_chat_history)
 

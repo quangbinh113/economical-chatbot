@@ -75,6 +75,10 @@ Install all packages mentioned in requirements.txt
 - DATA_PATH (path to saving crawled data)
 
 
+4. Run file docker/compose.yml
+```sh
+docker-compose up -d 
+```
 <!-- USAGE EXAMPLES -->
 ## Usage
 

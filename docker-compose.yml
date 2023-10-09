@@ -1,0 +1,22 @@
+version: '3.7'
+
+
+services:
+  dbpostgres:
+    image: postgres@sha256:2c1fb5ffd530cd8d7935ff71959dc548f83763b7c29038d62706b15e58a44285
+    container_name: database_david
+    restart: always
+    ports:
+      - '9000:5432'
+    environment:
+      POSTGRES_PASSWORD: david
+      POSTGRES_USER: david
+      POSTGRES_MULTIBLE_DATABASES: chatbot
+    volumes:
+      - D:/databse_store/chatbot:/var/lib/postgresql/data
+    networks:
+      - 'skynet'
+
+networks:
+  skynet:
+    name: skynet
