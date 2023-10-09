@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+list_history_by_day.py
 # C extensions
 *.so
 
@@ -158,10 +158,8 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-
 cache/
 .idea/
-
 .google-cookie
 data/
 .env/
@@ -169,3 +167,6 @@ test.
 alembic.ini
 file_upload/
 script.bat
+.google-cookie/
+test_text.py
+
