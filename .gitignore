@@ -165,4 +165,7 @@ cache/
 .google-cookie
 data/
 .env/
-test.ipynb
+test.
+alembic.ini
+file_upload/
+script.bat

@@ -34,7 +34,6 @@ numexpr==2.8.6
 numpy==1.26.0
 openai==0.28.0
 packaging==23.1
-Pillow==10.0.1
 pipreqs==0.4.13
 psutil==5.9.5
 pydantic==2.3.0
