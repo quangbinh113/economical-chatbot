@@ -11,7 +11,7 @@ services:
     environment:
       POSTGRES_PASSWORD: david
       POSTGRES_USER: david
-      POSTGRES_MULTIBLE_DATABASES: zlp
+      POSTGRES_MULTIBLE_DATABASES: chatbot
     volumes:
       - D:/databse_store/chatbot:/var/lib/postgresql/data
     networks:

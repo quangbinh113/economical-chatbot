@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+list_history_by_day.py
 # C extensions
 *.so
 
@@ -167,4 +167,9 @@ data/
 
 file_upload/
 
+alembic.ini
+script.bat
+
+
 test_text.py
+FE/test_htm_for_streamlit.py

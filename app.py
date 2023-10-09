@@ -4,11 +4,13 @@ import os
 from datetime import datetime
 from helper import api
 
+# background thay thế: https://images.rawpixel.com/image_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0yODEtYWRqLTA1Ni5qcGc.jpg
+
 page_bg_img = f"""
 <style>
 
 [data-testid="stAppViewContainer"] {{
-background-image: url("https://img.freepik.com/free-photo/beige-nude-pink-background-text-space_53876-108333.jpg?w=1380&t=st=1695281200~exp=1695281800~hmac=0dee288b519f53c699ed2c9af1bb2a45a776567b6f8ff2f1eba4c37f3b5c1654");
+background-image: url("https://img.freepik.com/free-photo/shimmering-gold-stars-watercolor_53876-94598.jpg?w=1380&t=st=1696407133~exp=1696407733~hmac=2198a7a11add8236045fe8c300961a810457b45523a2c24c8d4d7ea7838cbaec");
 background-size: cover;
 }}
 
@@ -21,7 +23,6 @@ background-position: center;
 border-color: transparent
 }}
 
-
 [class = "stChatFloatingInputContainer css-90vs21 e1d2x3se2"] {{
 border-radius: 20px;
 margin-bottom: 5px;
@@ -29,13 +30,10 @@ height: 100px;
 background-color: rgb(0, 0, 0, 0);
 }}
 
-
-
 [class="css-s1k4sy e1d2x3se4"] {{
 align-self:center;
 margin-bottom: 20px
 }}
-
 
 </style>
 """
@@ -45,7 +43,9 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
-    st.title("🔥 Chatbot with LangChain 🔥")
+    # st.title("🔥Vietnamese Economical Chatbot🔥")
+    st.markdown("<div style='text-align: center;'><strong style='font-size: 25px;'>🔥Vietnamese Economical "
+                "Chatbot🔥</strong></div>", unsafe_allow_html=True)
     if 'OPENAI_API_KEY' in st.secrets:
         st.success('API key already provided!', icon='✅')
         gpt_api = st.secrets['OPENAI_API_KEY']
@@ -78,9 +78,6 @@ with st.sidebar:
 # Set OpenAI API key
 os.environ['OPENAI_API_KEY'] = gpt_api
 
-# Thêm ảnh logo công ty vào đầu trang
-# st.image(r'C:\Users\Admin\Desktop\Project\python-crawler\neurond_chatbot.jpg', use_column_width=True)
-# st.image(r'C:\Users\Admin\Desktop\Project\python-crawler\neurond_chatbot.jpg', width=300)
 st.image(
     "https://upload.wikimedia.org/wikipedia/commons/d/d9/Neurond.png",
     width=None,  # Manually Adjust the width of the image as per requirement
@@ -89,15 +86,6 @@ st.image(
 # Store chat messages
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-
-# Display or clear chat messages
-# for message in st.session_state.messages:
-#     if message["role"] == "user":
-#         user_input = message["content"]
-#         st.markdown(f'👤 You: {user_input}')
-#     else:
-#         assistant_response = message["content"]
-#         st.markdown(f'🤖 Bot: {assistant_response}')
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -109,13 +97,19 @@ def clear_chat_history():
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
 
 
+def save_chat_history():
+    st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+
+
 # Button to clear chat history
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
+st.sidebar.button('Save Chat History', on_click=save_chat_history)
 
 
 # Function for generating GPT response
 def generate_gpt_response(prompt_input):
-    string_dialogue = "You are a helpful assistant. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."
+    string_dialogue = "You are a helpful assistant. You do not respond as 'User' or pretend to be 'User'. You only " \
+                      "respond once as 'Assistant'."
     for dict_message in st.session_state.messages:
         if dict_message["role"] == "user":
             string_dialogue += "User: " + dict_message["content"] + "\n\n"
@@ -137,18 +131,6 @@ def generate_gpt_response(prompt_input):
     return response['choices'][0]['message']['content']
 
 
-# User input field
-# if prompt := st.text_input("👤 You:"):
-#     st.session_state.messages.append({"role": "user", "content": prompt})
-
-# # Generate a new response when the user inputs a message
-# if prompt:
-#     user_input = st.session_state.messages[-1]["content"]
-#     st.markdown(f'👤 You: {user_input}')
-#     response = generate_gpt_response(user_input)
-#     st.session_state.messages.append({"role": "assistant", "content": response})
-#     st.markdown(f'🤖 Bot: {response}')
-
 if prompt := st.chat_input("What is up?"):
     # print("????????")
     # print(prompt)
@@ -160,19 +142,9 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        # for response in openai.ChatCompletion.create(
-        #         model=gpt_model,
-        #         messages=[
-        #             {"role": m["role"], "content": m["content"]}
-        #             for m in st.session_state.messages
-        #         ],
-        #         stream=True,
-        # ):
-        #     full_response += response.choices[0].delta.get("content", "")
-        #     message_placeholder.markdown(full_response + "▌")
 
-        # message_placeholder.markdown(full_response + "▌")
-        full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response", {"question": prompt}).cau_tra_loi
+        full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response",
+                                               {"question": prompt}).cau_tra_loi
         # Tính thời gian trả lời và in ra màn hình
         end_time = datetime.now()
         response_time = end_time - start_time
@@ -180,6 +152,34 @@ if prompt := st.chat_input("What is up?"):
         message_placeholder.markdown(full_response)
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+##################################################################
+# streaming auto chat
+# for response in openai.ChatCompletion.create(
+#         model=gpt_model,
+#         messages=[
+#             {"role": m["role"], "content": m["content"]}
+#             for m in st.session_state.messages
+#         ],
+#         stream=True,
+# ):
+#     full_response += response.choices[0].delta.get("content", "")
+#     message_placeholder.markdown(full_response + "▌")
+
+# message_placeholder.markdown(full_response + "▌")
+
+##################################################################
+# User input field
+# if prompt := st.text_input("👤 You:"):
+#     st.session_state.messages.append({"role": "user", "content": prompt})
+
+# # Generate a new response when the user inputs a message
+# if prompt:
+#     user_input = st.session_state.messages[-1]["content"]
+#     st.markdown(f'👤 You: {user_input}')
+#     response = generate_gpt_response(user_input)
+#     st.session_state.messages.append({"role": "assistant", "content": response})
+#     st.markdown(f'🤖 Bot: {response}')
 
 
 # # Define the custom CSS style for the button with a larger size
@@ -199,7 +199,6 @@ if prompt := st.chat_input("What is up?"):
 #     if uploaded_file is not None:
 #         # Handle the file upload here
 #         pass
-
 
 
 # import streamlit as st

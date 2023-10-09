@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from backend_ref.repositories.models.thread import Thread
-from typing import List, Optional
+from typing import List, Optional, Type
 from backend_ref.utils.date_utils import get_time_format
 
 
@@ -22,5 +22,5 @@ class ThreadRepository:
         self.session.commit()
         return thread
 
-    def LoadAll(self) -> List[Thread]:
+    def LoadAll(self) -> list[Type[Thread]]:
         return self.session.query(Thread).all()

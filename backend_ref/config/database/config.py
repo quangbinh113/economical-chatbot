@@ -1,5 +1,5 @@
 class DatabaseConfig:
-    def __init__(self, Host: str, Port: int, Password: str, User: str, DatabaseName='streamlist'):
+    def __init__(self, Host: str, Port: int, Password: str, User: str, DatabaseName='chat_bot'):
         self.Host: str = Host
         self.Port: int = Port
         self.Password: str = Password

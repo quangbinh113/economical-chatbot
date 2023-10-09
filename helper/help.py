@@ -17,7 +17,7 @@ def GetRootDir() -> str:
 
     # Navigate up to the root directory by using os.path.dirname repeatedly
     module_directory = os.path.dirname(script_directory)
-    root_directory = os.path.normpath(os.path.join(module_directory, "../ticket_project"))
+    root_directory = os.path.normpath(os.path.join(module_directory, "../prj-economical-chatbot"))
 
     print("Root directory:", root_directory)
     return root_directory
