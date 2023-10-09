@@ -8,6 +8,7 @@ cache/
 file_upload/
 .env
 .venv/
+
 __pycache__/
 test/
 notebooks/
@@ -16,3 +17,4 @@ config/
 # .streamlit
 *.ipynb
 venv
+chroma

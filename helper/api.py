@@ -27,3 +27,9 @@ def get_data_from_api(api_url, data: {}) -> AIResponseModel:
         # Handle request exceptions
         print(f"Request Error: {str(e)}")
         raise Exception("invalid data")  # Or raise an exc
+
+# def streaming_response(api_url,data):
+#     try:
+#         response = requests.post(api_url,json=data,stream = True)
+#     except:
+#         pass

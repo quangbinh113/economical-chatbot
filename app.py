@@ -3,7 +3,7 @@ import openai
 import os
 from datetime import datetime
 from helper import api
-
+import requests
 page_bg_img = f"""
 <style>
 

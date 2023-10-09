@@ -7,6 +7,7 @@ from src.model.model import HandleQA
 from config.config import config
 import os 
 from src.getdata.user_query import get_data
+from fastapi.responses import StreamingResponse
 
 ai_router = APIRouter()
 chat = HandleQA(config)
@@ -17,6 +18,7 @@ class AIResponseModel(BaseModel):
 
 class AIQueryModel(BaseModel):
     question: str
+    # documents: str
 
 
 @ai_router.post('/get_response')
@@ -25,16 +27,18 @@ async def get_response(input_: AIQueryModel):
     # chat = HandleQA(config)
     questionUser = input_.question
     out = AIResponseModel(cau_tra_loi=None)
+    crawl_data = get_data(questionUser)  
+    x = chat.ask_gpt(questionUser,crawl_data=crawl_data)
     
-    documents = get_data(questionUser)
-    # files = os.listdir(path)
-    # files = [os.path.join(path,file) for file in files]
-    
-    x = chat.ask_gpt(questionUser,documents)
-
     # code logic de tra ve cau tra loi
     # crawl data tu html -> file texts -> tong hop cau tra loi -> dua ra cau dung nhat = AI model sau do gan vao response message
     # dataCanXuLy = 'bla bla'  # can xu dung logic cua AI
+
+    # if not generator:
+    #     return 
+
+    # return StreamingResponse(generator, media_type="text/event-stream")
+    
     out.cau_tra_loi = fr'{str(x)}'
 
     return out

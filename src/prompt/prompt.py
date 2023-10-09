@@ -37,11 +37,9 @@ time_range
 QA_CHAIN_PROMPT_3 = ChatPromptTemplate.from_template(template_3)
 
 
+# template_4 ="""Bạn là chuyên viên tư vấn tài chính. Hãy trả lời câu hỏi sau đây. Thông tin phải là gần đây nhất. Đưa ra câu trả lời xác thực kèm theo tóm tắt. Luôn trả lời bằng tiếng Việt.
+# Nội dung: {context}
+# Câu hỏi: {question}
+# Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
+# QA_CHAIN_PROMPT_4 = ChatPromptTemplate.from_template(template_4)
 
-
-
-#  template_4 = """ 
-#     ngày 
-#     giá
-
-# """
