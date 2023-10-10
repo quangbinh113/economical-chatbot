@@ -36,105 +36,21 @@ class HandleQA:
             # model_kwargs={"device": "cpu"},
         )
         self.chroma = None
-        # self.callback = AsyncIteratorCallbackHandler()
+        self.callback = AsyncIteratorCallbackHandler()
         self.llm = ChatOpenAI(
             model_name="gpt-3.5-turbo",
             temperature=0,
             verbose=False,
-            # streaming=True,
-            # callbacks=[self.callback],
+            streaming=True,
+            callbacks=[self.callback],
         )
-        # self.llm = ChatOpenAI(
-        #     model_name="gpt-3.5-turbo-16k-0613",
-        #     temperature=0,
-        #     verbose=False,
-        # )
+    
         self.memory = ConversationTokenBufferMemory(llm=self.llm,max_token_limit=1500)
         self.chain = ConversationChain(llm=self.llm, 
                                        memory=self.memory, 
                                        verbose=True,
                                        )
-        # self.splitter = RecursiveCharacterTextSplitter(
-        #     chunk_size=self.config.chunk_size, chunk_overlap=self.config.chunk_overlap
-        # )
-    # def split_context(self, query: str, documents : list[str]) -> list[str]:
-    #     """
-    #     Split documents into chunks
-    #     Args:
-    #         query(str:None): question need to be answered
-    #         content(list[str]:None): list of documents
-    #     Return:
-    #         list of chunks (list[str])
-    #     """
-    #     start = time.time()
 
-    #     chunks = []
-
-    #     for document in documents:
-    #         chunks +=self.splitter.split_text(document)
-
-    #     if len(chunks) <= 10:
-    #         print(f"Splitting in: {time.time()-start}")
-    #         return chunks
-        
-    #     tf_idf = TfidfVectorizer()
-    #     tf_idf.fit(chunks + [query])
-    #     embedded_query = tf_idf.transform([query])
-
-    #     similarity = []
-    #     chunks = np.array(chunks)
-    #     for chunk in chunks:
-    #         similarity.append(
-    #             cosine_similarity(tf_idf.transform([chunk]), embedded_query)
-    #         )
-
-    #     chunks = chunks[np.array(similarity).argsort()[-10:]]
-    #     print(f"Splitting in: {time.time()-start}")
-
-    #     return [item.squeeze()[()] for item in chunks]
-  
-    # def store_db(self, chunks: list[str]) -> None:
-    #     """
-    #     Add chunks to vector store
-    #     Args:
-    #         chunks(list[str]:None): a list of chunks of the crawled text
-    #     Result:
-    #         None
-    #     """
-    #     start = time.time()
-    #     if self.chroma:
-    #         ids = self.chroma.get()["ids"]
-    #         self.chroma.delete(ids=ids)
-    #     self.chroma = Chroma.from_texts(chunks, embedding=self.embedding)
-    #     print(f"Create chroma in: {time.time() - start}")
-    #     return
-
-    # def get_query_and_chunk(
-    #     self, query: str, similarity_function: str = "max_marginal_relevance_search"
-    # ) -> tuple[str, list[str]]:
-    #     """
-    #     Return the query and the k-most similar contents
-    #     Args:
-    #         query(str:None): The query that the user asked the chatbot
-    #         similarity_function(str: 'max_marginal_relevance_search'): The type of similarity function use
-    #     return:
-    #         query(str)
-    #         contents(list[str])
-    #     """
-    #     start = time.time()
-    #     if similarity_function == "max_marginal_relevance_search":
-    #         similar_chunks = self.chroma.max_marginal_relevance_search(
-    #             query, k=self.config.number_of_chunk
-    #         )
-
-    #     elif similarity_function == "similarity":
-    #         similar_chunks = self.chroma.similarity(
-    #             query, k=self.config.number_of_chunk
-    #         )
-
-    #     contents = [content.page_content for content in similar_chunks]
-    #     print(f"Search chunks in: {time.time() - start}")
-    #     return query, contents
     def get_message(self, query: str, crawl_data:list[str] = None, documents:list[Document] = None):
         if len(crawl_data) > 0:
             self.chroma = CrawlChroma(self.config)
@@ -162,7 +78,7 @@ class HandleQA:
             )
         return message
 
-    def ask_gpt(self, query: str, crawl_data:list[str] = None, documents:list[Document] = None):
+    async def ask_gpt(self, query: str, crawl_data:list[str] = None, documents:list[Document] = None):
         """
         Return the answer from the chatGPT
         Args:
@@ -174,18 +90,14 @@ class HandleQA:
         message = ' '
         message = self.get_message(query,crawl_data,documents) 
 
-        answer = self.chain(message[0].content)
-
-        return answer['response']     
-        # task = asyncio.create_task(
-        #     self.chain.agenerate(input_list=[message[0].content])
-        # )
-        # try:
-        #     async for token in self.callback.aiter():
-        #         yield token
-        # except Exception as e:
-        #     print(f"Caught exception: {e}")
-        # finally:
-        #     self.callback.done.set()
-
-        # await task
+        task = asyncio.create_task(
+            self.chain.arun(input=message[0].content)
+        )
+        
+        try:
+            async for token in self.callback.aiter():
+                yield token
+        except Exception as e:
+            print(f"Caught exception: {e}")
+    
+        await task

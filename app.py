@@ -155,7 +155,10 @@ if prompt := st.chat_input("What is up?"):
 
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
+        full_response = ''
+        res = requests.post("http://127.0.0.1:8000/ai/get_response", json = {"question": prompt},stream=True)
+        print(res)
+        for response in res:
         # for response in openai.ChatCompletion.create(
         #         model=gpt_model,
         #         messages=[
@@ -164,11 +167,12 @@ if prompt := st.chat_input("What is up?"):
         #         ],
         #         stream=True,
         # ):
-        #     full_response += response.choices[0].delta.get("content", "")
-        #     message_placeholder.markdown(full_response + "▌")
+            # full_response += str(response,encoding='utf8')
+            full_response += response.decode('utf8')
+            message_placeholder.markdown(full_response + "▌")
 
         # message_placeholder.markdown(full_response + "▌")
-        full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response", {"question": prompt}).cau_tra_loi
+        # full_response += api.get_data_from_api("http://127.0.0.1:8000/ai/get_response", {"question": prompt}).cau_tra_loi
         # Tính thời gian trả lời và in ra màn hình
         end_time = datetime.now()
         response_time = end_time - start_time
