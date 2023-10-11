@@ -76,9 +76,9 @@ Install all packages mentioned in requirements.txt
 
 
 4. Run file docker/compose.yml
-```sh
-docker-compose up -d 
-```
+  ```sh
+  docker-compose up -d 
+  ```
 <!-- USAGE EXAMPLES -->
 ## Usage
 
