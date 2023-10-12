@@ -1,0 +1,7 @@
+altair
+pandas
+streamlit
+openai
+pydantic
+python-dotenv==1.0.0
+requests

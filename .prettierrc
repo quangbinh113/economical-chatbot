@@ -1,0 +1,20 @@
+{
+  "trailingComma": "all",    // Add trailing commas in multi-line objects and arrays.
+  "tabWidth": 4,              // Use 4 spaces for indentation.
+  "semi": true,               // Use semicolons at the end of statements.
+  "singleQuote": true,        // Use single quotes for string literals.
+  "printWidth": 100,          // Limit lines to 100 characters in length.
+  "arrowParens": "always",    // Always include parentheses in arrow function parameters.
+  "bracketSpacing": true,     // Put spaces inside of curly braces (e.g., { key: value }).
+  "jsxSingleQuote": true,     // Use single quotes in JSX.
+  "useTabs": false,           // Use spaces instead of tabs.
+  "quoteProps": "as-needed",  // Only quote object properties if necessary.
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "parser": "json",
+      }
+    }
+  ]
+}
