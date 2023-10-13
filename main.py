@@ -20,7 +20,7 @@
 
 # start sever and get api
 
-from router import query
+from router import query, upload_file
 from fastapi import FastAPI
 import sys
 
@@ -32,6 +32,7 @@ def init_app() -> FastAPI:
     _app = FastAPI(title="CMS API", version="0.2.0")
 
     _app.include_router(query.ai_router, prefix="/ai", tags=["ai"])
+    _app.include_router(upload_file.upload_file_router, prefix="/upload", tags=["upload"])
     
     return _app
 

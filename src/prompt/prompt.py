@@ -43,3 +43,8 @@ QA_CHAIN_PROMPT_3 = ChatPromptTemplate.from_template(template_3)
 # Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
 # QA_CHAIN_PROMPT_4 = ChatPromptTemplate.from_template(template_4)
 
+template_4 = """Đưa ra câu trả lời kèm theo tóm tắt cho câu hỏi phía dưới dựa vào nội dung đã cung cấp. Luôn trả lời bằng tiếng Việt.
+Nội dung: {context}
+Câu hỏi: {question}
+Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
+QA_CHAIN_PROMPT_4 = ChatPromptTemplate.from_template(template_4)

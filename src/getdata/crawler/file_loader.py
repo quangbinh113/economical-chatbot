@@ -63,7 +63,7 @@ class FileLoader(object):
         Returns:
             List[str]: A list of file contents from the text.
         """
-        loader = TextLoader(text_file)
+        loader = TextLoader(text_file,encoding='utf8')
         self.text = loader.load()
         return self.text
 
@@ -96,7 +96,7 @@ class FileLoader(object):
         Returns:
             List[str]: A list of file contents from the pdf.
         """
-        loader = PyPDFLoader(pdf_file)
+        loader = PyPDFLoader(pdf_file,encoding='utf8')
         self.pdf_data = loader.load()
         return self.pdf_data
 

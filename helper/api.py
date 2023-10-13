@@ -33,3 +33,30 @@ def get_data_from_api(api_url, data: {}) -> AIResponseModel:
 #         response = requests.post(api_url,json=data,stream = True)
 #     except:
 #         pass
+
+
+
+def upload_file_to_api(UPLOAD_API_URL, file):
+    try:
+        response = requests.post(UPLOAD_API_URL, files={"file": file})
+        if response.status_code == 200:
+            return response.json()
+        else:
+            # st.sidebar.error(f"Failed to upload file: {response.text}")
+            return None
+    except requests.exceptions.RequestException as e:
+        # st.sidebar.error(f"Failed to upload file: {str(e)}")
+        return None
+    
+
+def read_file(url: str):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            # st.sidebar.error(f"Failed to upload file: {response.text}")
+            return None
+    except requests.exceptions.RequestException as e:
+        # st.sidebar.error(f"Failed to upload file: {str(e)}")
+        return None

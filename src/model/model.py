@@ -8,7 +8,7 @@ from langchain.memory import ConversationTokenBufferMemory
 # from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks import AsyncIteratorCallbackHandler
 from langchain.docstore.document import Document
-from src.prompt.prompt import QA_CHAIN_PROMPT_1, QA_CHAIN_PROMPT_2,QA_CHAIN_PROMPT_3
+from src.prompt.prompt import QA_CHAIN_PROMPT_1, QA_CHAIN_PROMPT_2,QA_CHAIN_PROMPT_4
 from src.model.base_chroma import DocumentChroma, CrawlChroma
 import openai
 from dotenv import load_dotenv, find_dotenv
@@ -52,7 +52,21 @@ class HandleQA:
                                        )
 
     def get_message(self, query: str, crawl_data:list[str] = None, documents:list[Document] = None):
-        if len(crawl_data) > 0:
+        if documents:
+            self.chroma = DocumentChroma(self.config)
+
+            self.chroma.save_chroma(documents)
+    
+            query, contents = self.chroma.get_query_and_chunk(query)
+            contents = "\n".join(contents)
+
+            message = QA_CHAIN_PROMPT_4.format_messages(
+                question=query, context=contents
+            )
+
+            return message
+        
+        if crawl_data!=None and len(crawl_data) > 0:
             self.chroma = CrawlChroma(self.config)
             chunks = self.chroma.split_context(query,crawl_data)
         
@@ -66,17 +80,10 @@ class HandleQA:
         else:    
             message = QA_CHAIN_PROMPT_2.format_messages(question=query)
 
-        if documents:
-            self.chroma = DocumentChroma(self.config)
-
-            self.chroma.save_chroma(documents)
-    
-            query, contents = self.chroma.get_query_and_chunk(query)
-            contents = "\n".join(contents)
-            message = QA_CHAIN_PROMPT_1.format_messages(
-                question=query, context=contents
-            )
         return message
+
+    def reset_callback(self):
+        self.callback.done.clear()
 
     async def ask_gpt(self, query: str, crawl_data:list[str] = None, documents:list[Document] = None):
         """
@@ -87,9 +94,8 @@ class HandleQA:
         return:
             answer(str)
         """
-        message = ' '
         message = self.get_message(query,crawl_data,documents) 
-
+        
         task = asyncio.create_task(
             self.chain.arun(input=message[0].content)
         )
@@ -99,5 +105,7 @@ class HandleQA:
                 yield token
         except Exception as e:
             print(f"Caught exception: {e}")
-    
-        await task
+        finally:
+            self.callback.done.set()
+
+        await task  
