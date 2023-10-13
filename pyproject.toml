@@ -1,0 +1,34 @@
+[tool.black]
+line-length = 79  # Set your preferred line length (the default is 88)
+
+# Additional options for code formatting
+target-version = ['py37', 'py38', 'py39', 'py310']  # Set your Python version target
+include = '\.pyi?$'  # Regex pattern to match files to format
+exclude = ''  # Regex pattern to exclude files from formatting
+
+# Select which rules you want to enforce
+# You can add or remove rules based on your criteria
+skip-string-normalization = true  # Disable string normalization
+single-quotes = false  # Enforce double-quotes for strings
+skip-magic-trailing-comma = true  # Disable magic trailing commas
+
+# Set indentation options
+indent = 4  # Set the desired indentation level
+use-tabs = false  # Use spaces for indentation (recommended)
+
+# Other options
+experimental-string-processing = false  # Experimental string processing
+
+# For the experimental "path" feature
+# path = 'some_directory'
+
+# To specify a custom command for your parsing or formatting
+# or configuration files, you can use one of these options.
+# These options cannot be specified alongside config or pyi config.
+
+# parser = "package.module:function"
+# code = "package.module:function"
+# isort = "package.module:function"
+
+# For more information about configuration options, refer to Black's documentation:
+# https://black.readthedocs.io/en/stable/the_black_code_style.html
