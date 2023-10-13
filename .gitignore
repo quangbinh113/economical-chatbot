@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-data/
-=======
+.DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -162,13 +160,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
->>>>>>> features/data_loader
 cache/
 *.env
 .vscode/
 # .steamlit/
 .idea/
-<<<<<<< HEAD
 **/*.google-cookie
 file_upload/
 .env
@@ -179,7 +175,6 @@ notebooks/
 config/
 .ipynb_checkpoints/
 # .streamlit
-=======
 
 .google-cookie/
 data/
@@ -189,7 +184,5 @@ file_upload/
 alembic.ini
 script.bat
 
-
 test_text.py
 FE/test_htm_for_streamlit.py
->>>>>>> features/data_loader
