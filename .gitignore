@@ -121,7 +121,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-# .env
 .venv
 env/
 venv/
@@ -161,13 +160,11 @@ cython_debug/
 #.idea/
 
 cache/
-*.env
 .vscode/
 # .steamlit/
 .idea/
 **/*.google-cookie
 file_upload/
-.env
 .venv/
 __pycache__/
 test/
