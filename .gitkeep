@@ -1,0 +1,7 @@
+database_store/chatbot/pg_tblspc
+database_store/chatbot/pg_twophase
+database_store/chatbot/pg_commit_ts
+database_store/chatbot/pg_dynshmem
+database_store/chatbot/pg_replslot
+database_store/chatbot/pg_serial
+database_store/chatbot/pg_snapshots
