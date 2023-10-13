@@ -18,8 +18,6 @@ def init_app() -> FastAPI:
         RequestValidationError, exceptions.request_validation_exception_handler)
     _app.add_exception_handler(
         HTTPException, exceptions.http_exception_handler)
-    
-    print("Hello world")
     return _app
 
 app = init_app()
