@@ -1,3 +1,4 @@
+.DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -158,15 +159,31 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-cache/
-.idea/
-.google-cookie
-data/
-.env/
-test.
-alembic.ini
-file_upload/
-script.bat
-.google-cookie/
-test_text.py
 
+cache/
+*.env
+.vscode/
+# .steamlit/
+.idea/
+**/*.google-cookie
+file_upload/
+.env
+.venv/
+__pycache__/
+test/
+notebooks/
+config/
+.ipynb_checkpoints/
+# .streamlit
+
+.google-cookie/
+data/
+
+file_upload/
+
+alembic.ini
+script.bat
+
+
+test_text.py
+FE/test_htm_for_streamlit.py

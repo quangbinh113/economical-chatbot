@@ -1,22 +1,38 @@
 version: '3.7'
 
-
 services:
   dbpostgres:
-    image: postgres@sha256:2c1fb5ffd530cd8d7935ff71959dc548f83763b7c29038d62706b15e58a44285
-    container_name: database_david
+    image: arm64v8/postgres:11.21-alpine3.17
+    container_name: ps_database
     restart: always
     ports:
-      - '9000:5432'
+      - 9000:5432
     environment:
       POSTGRES_PASSWORD: david
       POSTGRES_USER: david
-      POSTGRES_MULTIBLE_DATABASES: chatbot
+      POSTGRES_MULTIPLE_DATABASES: chatbot  # Corrected typo
     volumes:
-      - D:/databse_store/chatbot:/var/lib/postgresql/data
-    networks:
-      - 'skynet'
+      - ./backend/database_store/chatbot:/var/lib/postgresql/data
+  
+  econ_chat_frontend:
+    image: samdobson/streamlit
+    container_name: econ_chat_frontend
+    build: 
+      context: ./streamlit_app
+    ports:
+      - 8501:8501
+    volumes:
+      - ./streamlit_app:/app
 
-networks:
-  skynet:
-    name: skynet
+  econ_chat_backend:
+    container_name: econ_chat_backend
+    build: 
+      context: ./backend
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app
+    links:
+      - dbpostgres
+    depends_on:
+      - dbpostgres
