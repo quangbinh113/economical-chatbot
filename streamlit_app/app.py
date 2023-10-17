@@ -26,7 +26,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 with st.sidebar:
     # st.title("🔥Vietnamese Economical Chatbot🔥")
     st.markdown("<div style='text-align: center;'><strong style='font-size: 25px;'>🔥Vietnamese Economical "
-                "Chatbot🔥</strong></div>", unsafe_allow_html=True)
+                "Chatbot</strong></div>", unsafe_allow_html=True)
     if 'OPENAI_API_KEY' in st.secrets:
         st.success('API key already provided!', icon='✅')
         gpt_api = st.secrets['OPENAI_API_KEY']
@@ -42,10 +42,10 @@ with st.sidebar:
                                           key='selected_model')
 
     # Choose the corresponding GPT model
-    if selected_model == 'GPT-2':
-        gpt_model = 'gpt-3.5-turbo'  # Use GPT-3.5 Turbo for GPT-2-like behavior
-    elif selected_model == 'GPT-3.5 Turbo':
+    if selected_model == 'GPT-3.5':
         gpt_model = 'gpt-3.5-turbo'
+    elif selected_model == 'GPT-3.5 Turbo 0613':
+        gpt_model = 'gpt-3.5-turbo-0613'
     else:
         gpt_model = 'text-davinci-002'  # Replace with GPT-4 model when available
     st.markdown('📖 AI Intern Hà Nội!')
@@ -55,7 +55,7 @@ os.environ['OPENAI_API_KEY'] = gpt_api
 
 st.image(
     "https://upload.wikimedia.org/wikipedia/commons/d/d9/Neurond.png",
-    width=None,  # Manually Adjust the width of the image as per requirement
+    width=None
 )
 
 # Store chat messages
@@ -135,8 +135,8 @@ def generate_gpt_response(prompt_input):
             {"role": "user", "content": f"{prompt_input}"},
         ],
     )
-
     return response['choices'][0]['message']['content']
+
 def get_thread(url):
     respone = api.check_thread(url)
     # print(respone)

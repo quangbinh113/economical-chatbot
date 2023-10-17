@@ -33,10 +33,8 @@
 </details>
 
 
-<!-- ABOUT THE REPOSITORY -->
-## About The Repository
+## Introduction
 
-This repository is used to build a friendly Vietnamese Chatbot which can answer your questions about Economic Information
 
 
 

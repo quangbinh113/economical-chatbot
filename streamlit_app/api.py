@@ -8,6 +8,7 @@ def get_data_from_api(api_url, data: {}) -> AIResponseModel:
     # try:
     # print(data)
     # Send a GET request to the API endpoint
+    print('api_url: ', api_url)
     response = requests.post(api_url, json=data)
 
     # Check if the request was successful (status code 200)
