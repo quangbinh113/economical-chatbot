@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 RUN pip install python-multipart
 COPY . .
 RUN chmod +x start_backend.sh
-CMD ["./start_backend.sh"]
+CMD ["bash", "./start_backend.sh"]
