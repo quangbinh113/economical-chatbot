@@ -96,7 +96,7 @@ class FileLoader(object):
         Returns:
             List[str]: A list of file contents from the pdf.
         """
-        loader = PyPDFLoader(pdf_file,encoding='utf8')
+        loader = PyPDFLoader(pdf_file)
         self.pdf_data = loader.load()
         return self.pdf_data
 
@@ -232,8 +232,8 @@ if __name__ == "__main__":
     # load = FileLoader().csv_loader(r'C:\Users\binh.truong\Code\economical-chatbot\file_upload\VIC.csv')
     # load2 = FileLoader().json_loader(r'C:\Users\binh.truong\Code\economical-chatbot\file_upload\tesst.json')
     load3 = FileLoader()
-    x = load3.load_file(r"C:\Users\anh.do\Desktop\economical-chatbot\NLP with hugging face.pdf")
-    print(x[330])
+    x = load3.load_file(r"C:\Users\anh.do\Desktop\economical-chatbot\file_upload\Sách Deep Learning cơ bản - v2.pdf")
+    print(x[10].metadata['source'])
     
 
     # print(load3)

@@ -1,5 +1,3 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
@@ -15,13 +13,6 @@ from dotenv import load_dotenv, find_dotenv
 import os
 import asyncio
 import time
-
-# import asyncio
-# from typing import AsyncIterable
-
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 _ = load_dotenv(find_dotenv())
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -56,10 +47,13 @@ class HandleQA:
             self.chroma = DocumentChroma(self.config)
 
             self.chroma.save_chroma(documents)
-    
-            query, contents = self.chroma.get_query_and_chunk(query)
+            start = time.time()
+            metadata = documents[0].metadata['source']
+            print('save to chroma in:',time.time()-start)
+   
+            query, contents = self.chroma.get_query_and_chunk(query,metadata)
             contents = "\n".join(contents)
-
+     
             message = QA_CHAIN_PROMPT_4.format_messages(
                 question=query, context=contents
             )
@@ -69,7 +63,6 @@ class HandleQA:
         if crawl_data!=None and len(crawl_data) > 0:
             self.chroma = CrawlChroma(self.config)
             chunks = self.chroma.split_context(query,crawl_data)
-        
             # if len(chunks) > 0:
             self.chroma.save_chroma(chunks)
             query, contents = self.chroma.get_query_and_chunk(query)

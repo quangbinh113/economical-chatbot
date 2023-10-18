@@ -1,19 +1,5 @@
 from langchain.prompts import ChatPromptTemplate
-
-
-template_1 = """Bạn là chuyên viên tư vấn tài chính. Hãy tư vấn cho khách hàng bằng những thông tin ở phần nội dung để trả lời câu hỏi ở phía cuối. Thông tin phải là gần đây nhất. Đưa ra câu trả lời kèm theo tóm tắt. Luôn trả lời bằng tiếng Việt.
-Nội dung: {context}
-Câu hỏi: {question}
-Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
-QA_CHAIN_PROMPT_1 = ChatPromptTemplate.from_template(template_1)
-
-#Ask GPT directly prompt
-template_2 ="""Bạn là chuyên viên tư vấn tài chính. Hãy trả lời câu hỏi sau đây. Thông tin phải là gần đây nhất. Đưa ra câu trả lời xác thực kèm theo tóm tắt. Luôn trả lời bằng tiếng Việt.
-Câu hỏi: {question}
-Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
-QA_CHAIN_PROMPT_2 = ChatPromptTemplate.from_template(template_2)
-
-#Visualize prompt
+import asyncio
 template_3 = """\
 Từ đoạn văn bản, hãy trích suất những thông tin sau:
 
@@ -39,9 +25,19 @@ time_range
 """
 QA_CHAIN_PROMPT_3 = ChatPromptTemplate.from_template(template_3)
 
-# Documents prompt
-template_4 = """Đưa ra câu trả lời kèm theo tóm tắt cho câu hỏi phía dưới dựa vào nội dung đã cung cấp. Luôn trả lời bằng tiếng Việt.
-Nội dung: {context}
-Câu hỏi: {question}
-Câu trả lời bằng Tiếng Việt kèm theo ít nhất 5 nội dung chính:"""
-QA_CHAIN_PROMPT_4 = ChatPromptTemplate.from_template(template_4)
+from src.model.model import HandleQA
+from config.config import config
+import asyncio
+
+chat = HandleQA(config)
+
+# async def test():
+chat.reset_callback()
+
+generator = chat.ask_gpt('Mã chứng khoán VHM từ 8 giờ đến 18 giờ chiều ngày 11/10/2023',crawl_data=[])
+# print(type(generator))
+# asyncio.run(generator)
+async def test():
+    async for item in generator:
+        print(item)
+asyncio.run(test())

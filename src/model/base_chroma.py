@@ -21,6 +21,10 @@ class BaseChroma:
         )
 
         self.chroma = None
+
+    def reset_chroma(self): 
+        if self.chroma:
+                self.chroma.delete_collection() 
     
     def save_chroma(self,chunks:list[Union[str,Document]])->None:
         pass
@@ -120,3 +124,30 @@ class DocumentChroma(BaseChroma):
     def save_chroma(self, chunks: list[Document]) -> None:
         self.chroma.add_documents(chunks)
     
+    def get_query_and_chunk(
+        self, query: str, metadata: str,similarity_function: str = "max_marginal_relevance_search"
+        ) -> tuple[str, list[Union[str,Document]]]:
+        """
+        Return the query and the k-most similar contents
+        Args:
+            query(str:None): The query that the user asked the chatbot
+            similarity_function(str: 'max_marginal_relevance_search'): The type of similarity function use
+            metadata(str:None): The source of the documents
+        return:
+            query(str)
+            contents(list[str])
+        """
+        start = time.time()
+        if similarity_function == "max_marginal_relevance_search":
+            similar_chunks = self.chroma.max_marginal_relevance_search(
+                query, k=self.config.number_of_chunk, filter = {'source': metadata}
+            )
+
+        elif similarity_function == "similarity":
+            similar_chunks = self.chroma.similarity(
+                query, k=self.config.number_of_chunk, filter = {'source': metadata}
+            )
+
+        contents = [content.page_content for content in similar_chunks]
+        print(f"Search chunks in: {time.time() - start}")
+        return query, contents

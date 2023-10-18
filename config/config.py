@@ -14,5 +14,5 @@ config = Config(
     chunk_overlap=0,
     embedding = "keepitreal/vietnamese-sbert",
     similarity_function = "max_marginal_relevance_search",
-    number_of_chunk = 3
+    number_of_chunk = 1
 )

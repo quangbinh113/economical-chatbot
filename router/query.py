@@ -34,9 +34,4 @@ async def get_response(input_: AIQueryModel):
     else:     
         crawl_data = get_data(questionUser) 
         generator = chat.ask_gpt(questionUser,crawl_data=crawl_data)
-
     return StreamingResponse(generator, media_type="text/event-stream")
-    
-    # out.cau_tra_loi = fr'{str(x)}'
-
-    # return out
