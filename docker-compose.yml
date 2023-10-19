@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   dbpostgres:
-    image: arm64v8/postgres:11.21-alpine3.17
+    image: amd64/postgres:11.21-bullseye
     container_name: ps_database
     restart: always
     ports:
@@ -21,6 +21,8 @@ services:
       context: ./streamlit_app
     ports:
       - 8501:8501
+    links: # thêm liên kết giữa backend và front-end
+      - econ_chat_backend
     volumes:
       - ./streamlit_app:/app
 

@@ -3,3 +3,9 @@ cache/
 .vscode/
 .DS_Store
 .gitignore
+.venv
+econ-chatbot
+.google-cookie
+eco-chat
+pyproject.toml
+eco-chat
