@@ -25,7 +25,6 @@ class AIQueryModel(BaseModel):
 @ai_router.post('/get_response')
 async def get_response(input_: AIQueryModel):
     questionUser = input_.question
-    out = AIResponseModel(cau_tra_loi=None)
     chat.reset_callback()
     if input_.documents:
         file_loader = FileLoader()

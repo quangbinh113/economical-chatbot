@@ -222,7 +222,7 @@ if prompt := st.chat_input("What is up?"):
     
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ''
+        full_response = '' 
         res = requests.post("http://127.0.0.1:8000/ai/get_response", json = {"question": prompt,"documents":st.session_state.documents},stream=True)
         for response in res:
             full_response += response.decode('utf8')

@@ -16,8 +16,8 @@ import os
 from dotenv import load_dotenv, find_dotenv
 
 _ = load_dotenv(find_dotenv()) # read local .env file
-data_path = os.environ["DATA_PATH"]
-
+# data_path = os.environ["DATA_PATH"]
+data_path = r'file_upload'
 
 class StockVisualization(object):
     """

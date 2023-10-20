@@ -138,6 +138,8 @@ class DocumentChroma(BaseChroma):
             contents(list[str])
         """
         start = time.time()
+        print(metadata)
+        
         if similarity_function == "max_marginal_relevance_search":
             similar_chunks = self.chroma.max_marginal_relevance_search(
                 query, k=self.config.number_of_chunk, filter = {'source': metadata}
