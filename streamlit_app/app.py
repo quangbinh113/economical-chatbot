@@ -138,10 +138,11 @@ if prompt := st.chat_input("What is up?"):
         full_response = ''
 
         # thay 127.0.0.1 thành econ_chat_backend ở phần links trong docker-compose.yml để connect từ be sang fe
-        res = requests.post("http://econ_chat_backend:8000/ai/get_response", json = {"question": prompt,"documents":st.session_state.documents},stream=True)
-        for response in res:
-            full_response += response.decode('utf8')
-            message_placeholder.markdown(full_response + "▌")
+        # res = requests.post("http://econ_chat_backend:8000/ai/get_response", json = {"question": prompt,"documents":st.session_state.documents},stream=True)
+        # for response in res:
+        #     full_response += response.decode('utf8')
+        #     message_placeholder.markdown(full_response + "▌")
+        full_response += api.get_data_from_api('http://econ_chat_backend:8000/ai/get_response',{'question':prompt}).response
         end_time = datetime.now()
         response_time = end_time - start_time
         st.markdown(f"🕒 Bot response time: {response_time.total_seconds()} seconds")
